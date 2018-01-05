@@ -1,0 +1,44 @@
+project App {
+    package: org.my
+    database: H2
+    build_tool: SBT
+}
+
+product Processor {
+    id: long id
+    socket: string required
+    type: string
+    cores: integer
+    threads: integer
+    cache: integer
+    baseFrequency: double
+    turboFrequency: double
+}     
+
+product RAM {
+    id: long id
+    ram_type: string
+    maxFrequency: double
+    capacity: integer
+    voltage: double
+    latency: integer 
+}    
+
+category Computers {
+    id: long id
+    name: string required
+}     
+
+category ComputerComponents {
+    id: long id
+    name: string required
+}            
+
+productCategory Processor -> ComputerComponents
+productCategory RAM -> ComputerComponents
+
+categoryInheritance ComputerComponents -> Computers
+
+
+
+

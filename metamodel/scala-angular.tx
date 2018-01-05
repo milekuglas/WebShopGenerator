@@ -1,0 +1,103 @@
+ProjectModel:
+    types*=SimpleType  
+    project=Project     
+    products*=Product     
+    categories*=Category  
+    enums*=Enum
+    productCategories*=ProductCategory
+    categoryInheritances*=CategoryInheritance
+;
+
+Project:
+    'project' name=ID '{'
+        (package=Package
+        database=Database
+        build=BuildTool)#
+    '}'
+;
+
+Package:
+    'package:' name=/[a-z][a-z0-9_]*(\.[a-z0-9_]+)+[0-9a-z_]/
+;
+
+Database:
+    'database:' name=DatabaseType
+;
+
+DatabaseType:
+    'H2' | 'MYSQL' | 'PostgreSQL'
+;
+
+BuildTool:
+    'build_tool:' name=BuildType
+;
+
+BuildType:
+    'SBT'
+;
+
+Product:
+    'product' name=ID '{'
+        properties+=Property 
+    '}'
+;
+
+Category:
+    'category' name=ID  '{'
+        properties+=Property
+    '}'
+;
+
+Enum:
+    'enum' name=ID '{'
+        values*=ID[',']
+    '}'
+;
+
+Property:
+    name=ID ':' type=[Type] (validations+=Validation)?
+;
+
+Validation:
+    Id | Required | NotNull | Max | Min | Size
+;
+
+Id:
+    name='id'
+;
+
+Required:
+    name='required'
+;
+
+NotNull:
+    name='not_null'
+;
+
+Max:
+    'max' '(' value=INT ')'
+;
+
+Min:
+    'min' '(' value=INT ')'
+;
+
+Size:
+    'size' '(' min=INT ','  max=INT ')'
+;
+
+Type:
+    SimpleType | Enum
+;
+
+SimpleType:
+    'type' name=ID
+;
+
+ProductCategory:
+    'productCategory' from=[Product] '->' to=[Category]
+;
+
+CategoryInheritance:
+    'categoryInheritance' from=[Category] '->' to=[Category]
+;
