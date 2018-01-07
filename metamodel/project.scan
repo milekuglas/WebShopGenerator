@@ -4,24 +4,32 @@ project App {
     build_tool: SBT
 }
 
-product Processor {
-    id: long id
-    socket: string required
-    type: string
-    cores: integer
-    threads: integer
-    cache: integer
+product Product base {
+    id: long
+    name: string
+    manufacturer: string
+    price: double
+    description: string
+    productURl: string
+    quantity: int
+}
+
+product Processor inherited {
+    socket: string
+    processorType: string
+    cores: int
+    cache: int
+    thread: int
     baseFrequency: double
     turboFrequency: double
 }     
 
-product RAM {
-    id: long id
+product RAM inherited {
     ram_type: string
     maxFrequency: double
-    capacity: integer
+    capacity: int
     voltage: double
-    latency: integer 
+    latency: int
 }    
 
 category Computers {

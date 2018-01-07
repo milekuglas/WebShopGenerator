@@ -4,19 +4,22 @@ Created on Jan 5, 2018
 @author: Milorad Vojnovic
 '''
 
+
 import os
 
+from parsers.parser import Parser
 from root import root
-from execute.execute import execute
-from generation.generator import generate
-
-
-def main(debug=False):
-    model = execute(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', debug)
-    for i in range(len(model.products)):
-        generate("case_class_template.scala", os.path.join("app", model.project.package.name.replace(".", os.sep), "model"),
-                 model.products[i].name+".scala", {"model": model, "product": model.products[i]})
+from generation.generators.main_generator import MainGenerator
+from generation.generators.model_generator import ModelGenerator
+from generation.generators.repository_generator import RepositoryGenerator
 
 
 if __name__ == '__main__':
-    main(True)
+    parser = Parser()
+    model = parser.parse(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', True)
+    main_generator = MainGenerator()
+    model_generator = ModelGenerator(main_generator)
+    repository_generator = RepositoryGenerator(main_generator)
+    main_generator.add_generator(model_generator)
+    main_generator.add_generator(repository_generator)
+    main_generator.generate_all(model)
