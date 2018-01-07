@@ -39,3 +39,8 @@ tmtagsHistory
 *.sublime-project
 *.sublime-workspace
 .bundle
+
+# App #
+#######
+output
+metamodel/*.dot
