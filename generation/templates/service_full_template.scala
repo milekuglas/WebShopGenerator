@@ -2,8 +2,8 @@ package {{ package.name }}.service
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import dto.{GetProcessorFull, PostProcessorFull}
-import repository.ProcessorFullRepository
+import {{ package.name }}.dto.{Get{{ product.name }}Full, Post{{ product.name }}Full}
+import {{ package.name }}.repository.{{ product.name }}FullRepository
 
 
 @Singleton()

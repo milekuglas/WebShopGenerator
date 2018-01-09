@@ -3,7 +3,7 @@ package {{ package.name }}.controller
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
 import play.api.mvc.{AbstractController, ControllerComponents}
-import service.{{ product.name }}Service
+import {{ package.name }}.service.{{ product.name }}Service
 
 import scala.concurrent.ExecutionContext
 

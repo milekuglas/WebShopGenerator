@@ -1,7 +1,7 @@
 import javax.inject.Inject
 
-import repository._
-import model._
+import {{ model.project.package.name }}.repository._
+import {{ model.project.package.name }}.model._
 
 import scala.concurrent.{Await, ExecutionContext}
 import scala.concurrent.duration.Duration

@@ -1,13 +1,12 @@
 package {{ package.name }}.controller
 
 import javax.inject.{Inject, Singleton}
-
-import dto.Post{{ product.name }}Full
+import {{ package.name }}.dto.Post{{ product.name }}Full
+import {{ package.name }}.service.{{ product.name }}FullService
 import play.api.libs.json._
 import play.api.mvc.{AbstractController, Action, ControllerComponents}
-import service.{{ product.name }}FullService
-
 import scala.concurrent.{ExecutionContext, Future}
+
 
 @Singleton()
 class {{ product.name }}FullController @Inject()(cc: ControllerComponents,
