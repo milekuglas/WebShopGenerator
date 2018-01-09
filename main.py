@@ -9,6 +9,7 @@ import os
 
 from generation.generators.controller_generator import ControllerGenerator
 from generation.generators.dto_generator import DTOGenerator
+from generation.generators.module_generator import ModuleGenerator
 from generation.generators.service_generator import ServiceGenerator
 from parsers.parser import Parser
 from root import root
@@ -26,10 +27,12 @@ if __name__ == '__main__':
     service_generator = ServiceGenerator(main_generator)
     controller_generator = ControllerGenerator(main_generator)
     dto_generator = DTOGenerator(main_generator)
+    module_generator = ModuleGenerator(main_generator)
     main_generator.add_generator(model_generator)
     main_generator.add_generator(repository_generator)
     main_generator.add_generator(service_generator)
     main_generator.add_generator(controller_generator)
     main_generator.add_generator(dto_generator)
+    main_generator.add_generator(module_generator)
     main_generator.generate_all(model)
 
