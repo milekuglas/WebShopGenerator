@@ -1,6 +1,6 @@
 package {{ package.name }}.dto
 
-import model.{{ product.name }}Full
+import {{ package.name }}.model.{{ product.name }}Full
 import play.api.libs.json._
 
 

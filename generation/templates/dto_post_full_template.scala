@@ -1,7 +1,7 @@
 package {{ package.name }}.dto
 
 import play.api.libs.json._
-import model.{{ product.name }}Full
+import {{ package.name }}.model.{{ product.name }}Full
 
 
 case class Post{{ product.name }}Full(

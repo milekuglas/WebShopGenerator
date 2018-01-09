@@ -1,7 +1,7 @@
 package {{ package.name }}.repository
 
 import slick.jdbc.PostgresProfile.api._
-import model.{ {{ product.name }}, {{product.name}}Full }
+import {{ package.name }}.model.{ {{ product.name }}, {{product.name}}Full }
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile

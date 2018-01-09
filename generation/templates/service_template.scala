@@ -2,8 +2,8 @@ package {{ package.name }}.service
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import dto.Get{{ product.name }}
-import repository.{{ product.name }}Repository
+import {{ package.name }}.dto.Get{{ product.name }}
+import {{ package.name }}.repository.{{ product.name }}Repository
 
 
 @Singleton()

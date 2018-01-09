@@ -11,6 +11,7 @@ from generation.generators.conf_generator import ConfGenerator
 from generation.generators.controller_generator import ControllerGenerator
 from generation.generators.dto_generator import DTOGenerator
 from generation.generators.module_generator import ModuleGenerator
+from generation.generators.sbt_generator import SbtGenerator
 from generation.generators.service_generator import ServiceGenerator
 from parsers.parser import Parser
 from root import root
@@ -30,6 +31,7 @@ if __name__ == '__main__':
     dto_generator = DTOGenerator(main_generator)
     module_generator = ModuleGenerator(main_generator)
     conf_generator = ConfGenerator(main_generator)
+    sbt_generator = SbtGenerator(main_generator)
     main_generator.add_generator(model_generator)
     main_generator.add_generator(repository_generator)
     main_generator.add_generator(service_generator)
@@ -37,5 +39,6 @@ if __name__ == '__main__':
     main_generator.add_generator(dto_generator)
     main_generator.add_generator(module_generator)
     main_generator.add_generator(conf_generator)
+    main_generator.add_generator(sbt_generator)
     main_generator.generate_all(model)
 
