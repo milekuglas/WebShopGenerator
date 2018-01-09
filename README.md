@@ -4,10 +4,17 @@
 
 ## Getting Started
 
-## Run
+## Run generator
 ```
   python main.py
 ```
+
+## Run generated project
+```
+  cd output
+  sbt run
+```
+Note: Download SBT from: https://www.scala-sbt.org/download.html (version: 0.13.15)
    
 ## Contributors
 
