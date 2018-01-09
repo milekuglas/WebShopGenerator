@@ -7,6 +7,7 @@ Created on Jan 5, 2018
 
 import os
 
+from generation.generators.conf_generator import ConfGenerator
 from generation.generators.controller_generator import ControllerGenerator
 from generation.generators.dto_generator import DTOGenerator
 from generation.generators.module_generator import ModuleGenerator
@@ -28,11 +29,13 @@ if __name__ == '__main__':
     controller_generator = ControllerGenerator(main_generator)
     dto_generator = DTOGenerator(main_generator)
     module_generator = ModuleGenerator(main_generator)
+    conf_generator = ConfGenerator(main_generator)
     main_generator.add_generator(model_generator)
     main_generator.add_generator(repository_generator)
     main_generator.add_generator(service_generator)
     main_generator.add_generator(controller_generator)
     main_generator.add_generator(dto_generator)
     main_generator.add_generator(module_generator)
+    main_generator.add_generator(conf_generator)
     main_generator.generate_all(model)
 
