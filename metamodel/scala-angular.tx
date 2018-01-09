@@ -1,11 +1,12 @@
 ProjectModel:
-    types*=SimpleType  
-    project=Project     
+    types*=SimpleType
+    project=Project
+    base_product=Product
     products*=Product     
     categories*=Category  
     enums*=Enum
-    productCategories*=ProductCategory
-    categoryInheritances*=CategoryInheritance
+    product_categories*=ProductCategory
+    category_inheritances*=CategoryInheritance
 ;
 
 Project:
@@ -37,9 +38,13 @@ BuildType:
 ;
 
 Product:
-    'product' name=ID '{'
+    'product' name=ID type=ProductType '{'
         properties+=Property 
     '}'
+;
+
+ProductType:
+    'base'|'inherited'
 ;
 
 Category:

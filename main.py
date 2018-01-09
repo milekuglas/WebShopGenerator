@@ -4,19 +4,41 @@ Created on Jan 5, 2018
 @author: Milorad Vojnovic
 '''
 
+
 import os
 
+from generation.generators.conf_generator import ConfGenerator
+from generation.generators.controller_generator import ControllerGenerator
+from generation.generators.dto_generator import DTOGenerator
+from generation.generators.module_generator import ModuleGenerator
+from generation.generators.sbt_generator import SbtGenerator
+from generation.generators.service_generator import ServiceGenerator
+from parsers.parser import Parser
 from root import root
-from execute.execute import execute
-from generation.generator import generate
-
-
-def main(debug=False):
-    model = execute(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', debug)
-    for i in range(len(model.products)):
-        generate("case_class_template.scala", os.path.join("app", model.project.package.name.replace(".", os.sep), "model"),
-                 model.products[i].name+".scala", {"model": model, "product": model.products[i]})
+from generation.generators.main_generator import MainGenerator
+from generation.generators.model_generator import ModelGenerator
+from generation.generators.repository_generator import RepositoryGenerator
 
 
 if __name__ == '__main__':
-    main(True)
+    parser = Parser()
+    model = parser.parse(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', True)
+    main_generator = MainGenerator()
+    model_generator = ModelGenerator(main_generator)
+    repository_generator = RepositoryGenerator(main_generator)
+    service_generator = ServiceGenerator(main_generator)
+    controller_generator = ControllerGenerator(main_generator)
+    dto_generator = DTOGenerator(main_generator)
+    module_generator = ModuleGenerator(main_generator)
+    conf_generator = ConfGenerator(main_generator)
+    sbt_generator = SbtGenerator(main_generator)
+    main_generator.add_generator(model_generator)
+    main_generator.add_generator(repository_generator)
+    main_generator.add_generator(service_generator)
+    main_generator.add_generator(controller_generator)
+    main_generator.add_generator(dto_generator)
+    main_generator.add_generator(module_generator)
+    main_generator.add_generator(conf_generator)
+    main_generator.add_generator(sbt_generator)
+    main_generator.generate_all(model)
+
