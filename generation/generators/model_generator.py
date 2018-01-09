@@ -6,8 +6,10 @@ Created on Jan 5, 2018
 
 import os
 
+from generation.generators.generator import Generator
 
-class ModelGenerator(object):
+
+class ModelGenerator(Generator):
 
     def __init__(self, main_generator):
         self.main_generator = main_generator

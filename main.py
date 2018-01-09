@@ -7,6 +7,7 @@ Created on Jan 5, 2018
 
 import os
 
+from generation.generators.service_generator import ServiceGenerator
 from parsers.parser import Parser
 from root import root
 from generation.generators.main_generator import MainGenerator
@@ -20,6 +21,9 @@ if __name__ == '__main__':
     main_generator = MainGenerator()
     model_generator = ModelGenerator(main_generator)
     repository_generator = RepositoryGenerator(main_generator)
+    service_generator = ServiceGenerator(main_generator)
     main_generator.add_generator(model_generator)
     main_generator.add_generator(repository_generator)
+    main_generator.add_generator(service_generator)
     main_generator.generate_all(model)
+

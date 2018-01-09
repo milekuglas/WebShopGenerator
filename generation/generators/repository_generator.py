@@ -8,7 +8,10 @@ Created on Jan 5, 2018
 import os
 
 
-class RepositoryGenerator(object):
+from generation.generators.generator import Generator
+
+
+class RepositoryGenerator(Generator):
 
     def __init__(self, main_generator):
         self.main_generator = main_generator
