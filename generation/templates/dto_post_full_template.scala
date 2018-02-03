@@ -17,7 +17,8 @@ object Post{{ product.name }}Full {
   {{- product.name }}Full: Post{{ product.name }}Full): {{ product.name }}Full =
     new {{ product.name }}Full(
       post{{ product.name }}Full.{{ product.name|lower() }},
-      post{{ product.name }}Full.{{ base_product.name|lower() }}
+      post{{ product.name }}Full.{{ base_product.name|lower() }},
+      null
     )
 
 }

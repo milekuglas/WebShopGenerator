@@ -8,11 +8,14 @@ case class Post{{ product.name }}(
 {% for property in product.properties %}
 {% if not property.name == "id" %}
     {{ property.name }}: {{property.type}}
-  {%- if not loop.last -%}
+  {%- if not loop.last  or product.type == "base" -%}
       ,
   {% endif %}
   {% endif %}
 {% endfor %}
+    {% if product.type == "base" %}
+    categoryId: Long
+    {% endif %}
 
 )
 
@@ -27,11 +30,13 @@ object Post{{ product.name }} {
 {% for property in product.properties %}
 {% if not property.name == "id" %}
       post{{ product.name }}.{{ property.name }}
-  {%- if not loop.last -%}
+  {%- if not loop.last  or product.type == "base" -%}
       ,
   {% endif %}
   {% endif %}
 {% endfor %}
-
+    {% if product.type == "base" %}
+      post{{ product.name }}.categoryId
+    {% endif %}
     )
 }

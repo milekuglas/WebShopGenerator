@@ -16,12 +16,12 @@ class {{ product.name }}FullController @Inject()(cc: ControllerComponents,
 
 
   def getAll = Action.async {
-    {{ product.name|lower() }}FullService.getAll map({{ product.name|lower() }}s => Ok(Json.toJson({{ product.name|lower() }}s)))
+    {{ product.name|lower() }}FullService.getAll map(result => Ok(Json.toJson(result)))
   }
 
   def get(id: Long) = Action.async {
     {{ product.name|lower() }}FullService.get(id) map {
-      case Some({{ product.name|lower() }}) => Ok(Json.toJson({{ product.name|lower() }}))
+      case Some(result) => Ok(Json.toJson(result))
       case None => NotFound
     }
   }

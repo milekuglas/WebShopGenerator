@@ -10,11 +10,13 @@ case class Get{{ product.name }}(
 {% endif %}
 {% for property in product.properties %}
   {{ property.name }}: {{property.type}}
-  {%- if not loop.last -%}
+  {%- if not loop.last or product.type == "base" -%}
       ,
   {% endif %}
 {% endfor %}
-
+  {% if product.type == "base" %}
+  categoryId: Long
+  {% endif %}
 )
 
 object Get{{ product.name }} {
@@ -29,10 +31,12 @@ object Get{{ product.name }} {
     {% endif %}
      {% for property in product.properties %}
       {{ product.name|lower() }}.{{ property.name }}
-      {%- if not loop.last -%}
-          ,
+      {%- if not loop.last or product.type == "base" -%}
+      ,
       {% endif %}
     {% endfor %}
-
+      {% if product.type == "base" %}
+      {{ product.name|lower() }}.categoryId
+      {% endif %}
     )
 }

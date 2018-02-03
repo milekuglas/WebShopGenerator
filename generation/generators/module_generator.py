@@ -25,8 +25,12 @@ class ModuleGenerator(Generator):
                  os.path.join("app", model.project.package.name.replace(".", os.sep)), "Module.scala", {})
 
     def generate_initial_data_model(self, model):
-        for i in range(len(model.products)):
-            self.main_generator.generate("initial_data_template.scala",
-                     os.path.join("app", model.project.package.name.replace(".", os.sep)), "InitialData.scala",
-                                         {"model": model})
+        ids = {}
+        index = 1
+        for category in model.categories:
+            ids[category.name] = index
+            index += 1
+        self.main_generator.generate("initial_data_template.scala",
+                    os.path.join("app", model.project.package.name.replace(".", os.sep)), "InitialData.scala",
+                                        {"model": model, "categories": model.categories, "ids" : ids})
 

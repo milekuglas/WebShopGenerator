@@ -1,42 +1,45 @@
 package {{ package.name }}.repository
 
 import slick.jdbc.PostgresProfile.api._
-import {{ package.name }}.model.{ {{ product.name }}, {{product.name}}Full }
+import {{ package.name }}.model.{ Category,  {{ product.name }}, {{product.name}}Full }
 import javax.inject.{Inject, Singleton}
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import slick.jdbc.JdbcProfile
+
+import play.api.db.slick.DatabaseConfigProvider
+import {{ package.name }}.repository.table.{CategoryTable, {{ product.name }}Table, {{base_product.name}}Table}
 import scala.concurrent.{ExecutionContext, Future}
 
 
 @Singleton()
 class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
-                                    (implicit executionContext: ExecutionContext) extends {{ product.name }}Component
-  with HasDatabaseConfigProvider[JdbcProfile] {
+                                    (implicit executionContext: ExecutionContext) {
 
   private val {{ product.name }}s = TableQuery[{{ product.name }}Table]
   private val {{ base_product.name }}s = TableQuery[{{ base_product.name }}Table]
+  private val Categories = TableQuery[CategoryTable]
+
+  val db = dbConfigProvider.get.db
 
   def all(): Future[Seq[{{ product.name }}Full]] = db.run({
     for {
-      ({{ product.name|lower() }}, {{ base_product.name|lower() }}) <- {{ product.name }}s join {{ base_product.name }}s on (_.
-      {{- base_product.name|lower() }}Id === _.id)
-    } yield ({{ product.name|lower() }}, {{ base_product.name|lower() }})
+      (({{ product.name|lower() }}, {{ base_product.name|lower() }}), category) <- {{ product.name }}s join {{ base_product.name }}s on (_.
+      {{- base_product.name|lower() }}Id === _.id)  join Categories on (_._2.categoryId === _.id)
+    } yield ({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)
   }.result.map(_ map {
-    case ({{ product.name|lower() }}: {{ product.name }}, {{ base_product.name|lower() }}:{{ base_product.name}}) =>
-    {{- product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }})
+    case ({{ product.name|lower() }}: {{ product.name }}, {{ base_product.name|lower() }}:{{ base_product.name}}, category: Category) =>
+    {{- product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)
   })
   )
 
   def get(id: Long):Future[Option[{{ product.name }}Full]] = db.run({
     for {
-      ({{ product.name|lower() }}, {{ base_product.name|lower() }}) <-
+      (({{ product.name|lower() }}, {{ base_product.name|lower() }}), category) <-
       {{- product.name }}s.filter(_.{{ base_product.name|lower()}}Id === id) join {{ base_product.name}}s on (_.
-      {{- base_product.name|lower()}}Id === _.id)
-    } yield ({{ product.name|lower() }}, {{ base_product.name|lower() }})
+      {{- base_product.name|lower()}}Id === _.id)  join Categories on (_._2.categoryId === _.id)
+    } yield ({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)
   }.result.head map {
     case ({{ product.name|lower() }}: {{ product.name }},
-    {{- base_product.name|lower() }}:{{ base_product.name }}) => Some(
-    {{- product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}))
+    {{- base_product.name|lower() }}:{{ base_product.name }}, category: Category) => Some(
+    {{- product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}, category))
     case _ => None
   })
 
@@ -45,7 +48,8 @@ class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider
     {{- base_product.name|lower() }}
     {{ product.name|lower() }} <- ({{ product.name }}s returning {{ product.name }}s) += {{ product.name|lower() }}Full.
     {{- product.name|lower() }}.copy({{ base_product.name|lower() }}Id = {{ base_product.name|lower() }}.id)
-  } yield {{ product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }})).transactionally)
+    category <- Categories.filter(_.id === {{ base_product.name|lower() }}.categoryId).result.head
+  } yield {{ product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)).transactionally)
 
   def delete(id: Long): Future[Int] = db.run((for {
     rows{{ product.name }} <- {{ product.name }}s.filter(_.{{ base_product.name|lower() }}Id === id).delete if rows{{ product.name }} == 1
