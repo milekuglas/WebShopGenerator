@@ -5,8 +5,6 @@ ProjectModel:
     products*=Product     
     categories*=Category  
     enums*=Enum
-    product_categories*=ProductCategory
-    category_inheritances*=CategoryInheritance
 ;
 
 Project:
@@ -48,9 +46,7 @@ ProductType:
 ;
 
 Category:
-    'category' name=ID  '{'
-        properties+=Property
-    '}'
+    'category' name=ID ('->' subcategory=[Category])?
 ;
 
 Enum:
@@ -99,10 +95,11 @@ SimpleType:
     'type' name=ID
 ;
 
-ProductCategory:
-    'productCategory' from=[Product] '->' to=[Category]
-;
 
-CategoryInheritance:
-    'categoryInheritance' from=[Category] '->' to=[Category]
-;
+
+
+
+
+
+
+

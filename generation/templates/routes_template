@@ -1,11 +1,17 @@
-GET     /{{model.base_product.name|lower()}}s/:id           {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.get(id: Long)
-GET     /{{model.base_product.name|lower()}}s               {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.getAll
+GET     /{{model.base_product.name|lower()}}/:id           {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.get(id: Long)
+GET     /{{model.base_product.name|lower()}}               {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.getAll
 
 {% for product in model.products %}
-GET     /{{ product.name|lower() }}s             {{ model.project.package.name }}.controller.{{ product.name }}FullController.getAll
-GET     /{{ product.name|lower() }}s/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.get(id: Long)
-POST    /{{ product.name|lower() }}s             {{ model.project.package.name }}.controller.{{ product.name }}FullController.add
-DELETE  /{{ product.name|lower() }}s/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.delete(id: Long)
-PUT     /{{ product.name|lower() }}s/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.update(id: Long)
+GET     /{{ product.name|lower() }}             {{ model.project.package.name }}.controller.{{ product.name }}FullController.getAll
+GET     /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.get(id: Long)
+POST    /{{ product.name|lower() }}             {{ model.project.package.name }}.controller.{{ product.name }}FullController.add
+DELETE  /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.delete(id: Long)
+PUT     /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.update(id: Long)
 
 {% endfor %}
+
+GET     /category               {{ model.project.package.name }}.controller.CategoryController.getAll
+GET     /category/:id           {{ model.project.package.name }}.controller.CategoryController.get(id: Long)
+POST    /category               {{ model.project.package.name }}.controller.CategoryController.add
+DELETE  /category/:id           {{ model.project.package.name }}.controller.CategoryController.delete(id: Long)
+PUT     /category/:id           {{ model.project.package.name }}.controller.CategoryController.update(id: Long)

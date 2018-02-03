@@ -6,9 +6,11 @@ case class {{ product.name }} (
   {% endif %}
 {% for property in product.properties %}
   {{ property.name }}: {{property.type}}
-  {%- if not loop.last -%}
+  {%- if not loop.last or product.type == "base" -%}
       ,
   {% endif %}
 {% endfor %}
-
+  {% if product.type == "base" %}
+  categoryId: Long
+  {% endif %}
 )

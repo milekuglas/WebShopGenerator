@@ -32,21 +32,10 @@ product RAM inherited {
     latency: int
 }    
 
-category Computers {
-    id: long id
-    name: string required
-}     
-
-category ComputerComponents {
-    id: long id
-    name: string required
-}            
-
-productCategory Processor -> ComputerComponents
-productCategory RAM -> ComputerComponents
-
-categoryInheritance ComputerComponents -> Computers
-
-
-
-
+category Computer
+category ComputerComponent -> Computer
+category Processor -> ComputerComponent      
+category RAM_Memory -> ComputerComponent
+category Intel -> Processor
+category AMD -> Processor
+category Kingston -> RAM_Memory
