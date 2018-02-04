@@ -3,14 +3,15 @@ package {{ package.name }}.repository
 import slick.jdbc.PostgresProfile.api._
 import {{ package.name }}.model.{ Category,  {{ product.name }}, {{product.name}}Full }
 import javax.inject.{Inject, Singleton}
-
+import {{ package.name }}.search.filter.MaybeFilter
 import play.api.db.slick.DatabaseConfigProvider
 import {{ package.name }}.repository.table.{CategoryTable, {{ product.name }}Table, {{base_product.name}}Table}
 import scala.concurrent.{ExecutionContext, Future}
 
 
 @Singleton()
-class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider,
+                                                  {{ base_product.name | lower() }}Repository: {{ base_product.name }}Repository)
                                     (implicit executionContext: ExecutionContext) {
 
   private val {{ product.name }}s = TableQuery[{{ product.name }}Table]
@@ -63,4 +64,95 @@ class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider
     rows{{ base_product.name }} <- {{ base_product.name }}s.filter(_.id === id).update(
     {{- product.name|lower() }}Full.{{ base_product.name|lower() }}.copy(id)) if rows{{ base_product.name }} == 1
   } yield rows{{ base_product.name }}).transactionally)
+
+    def search(
+         {% for property in base_product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}
+{% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}
+            categoryId: Option[Long]): Future[Seq[{{ product.name }}Full]] = {
+
+    db.run((for {
+      (({{ product.name|lower() }}, {{ base_product.name|lower() }}), category) <- find(
+        {% for property in product.properties %}
+        {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+                  {{ property.name }}
+                  {%- if not loop.last -%}
+                  , 
+                  {% endif %}
+      {% endif %}
+        {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+                  {{ property.name }}From, 
+                  {{ property.name }}To
+                  {%- if not loop.last -%}
+                  , 
+                  {% endif %}
+      {% endif %}
+      {% endfor %}) join {{ base_product.name|lower() }}Repository.find(
+              {% for property in base_product.properties %}
+        {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+                  {{ property.name }},
+      {% endif %}
+        {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+                  {{ property.name }}From, 
+                  {{ property.name }}To,
+      {% endif %}
+      {% endfor %}
+        categoryId) on (_.{{ base_product.name|lower() }}Id === _.id) join Categories on (_._2.categoryId === _.id)
+    } yield ({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)).result.map(_ map {
+      case ({{ product.name|lower() }}: {{ product.name }}, 
+      {{- base_product.name|lower() -}}: {{ base_product.name }}, category: Category) =>
+        {{ product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)
+    }))
+  }
+
+  def find(
+  {% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}) = {
+
+    MaybeFilter({{ product.name }}s)
+    {% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+      .filter({{ property.name }})(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }}.toLowerCase like "%"+value.toLowerCase+"%")
+      {% endif %}
+    {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+      .filter({{ property.name }}From)(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }} >= value)
+      .filter({{ property.name }}To)(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }} <= value)
+      {% endif %}
+    {% endfor %}
+      .query
+  }
 }

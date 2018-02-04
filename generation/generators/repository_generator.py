@@ -20,6 +20,7 @@ class RepositoryGenerator(Generator):
         self.generate_base_repository_model(model)
         self.generate_repository_model(model)
         self.generate_repository_full_model(model)
+        self.generate_maybe_filter_model(model)
 
     def generate_base_repository_model(self, model):
         self.main_generator.generate("repository_template.scala",
@@ -42,3 +43,9 @@ class RepositoryGenerator(Generator):
                      model.products[i].name + "FullRepository.scala",
                      {"package": model.project.package, "product": model.products[i],
                       "base_product": model.base_product})
+
+    def generate_maybe_filter_model(self, model):
+        self.main_generator.generate("maybe_filter_template.scala",
+                     os.path.join("app", model.project.package.name.replace(".", os.sep), "search", "filter"),
+                     "MaybeFilter.scala",
+                     {"package": model.project.package})

@@ -32,4 +32,57 @@ class {{ product.name }}FullService @Inject()({{ product.name|lower() }}FullRepo
   def update(id: Long, {{ product.name|lower() }}Full: Post{{ product.name }}Full): Future[Int] = {
     {{ product.name|lower() }}FullRepository.update(id, {{ product.name|lower }}Full)
   }
+
+  def search(
+     {% for property in base_product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}
+{% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}
+            categoryId: Option[Long]): Future[Seq[Get{{ product.name }}Full]] = {
+
+    {{ product.name|lower() }}FullRepository.search(
+              {% for property in base_product.properties %}
+        {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+                  {{ property.name }},
+      {% endif %}
+        {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+                  {{ property.name }}From, 
+                  {{ property.name }}To,
+      {% endif %}
+      {% endfor %}
+            {% for property in product.properties %}
+        {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+                  {{ property.name }},
+      {% endif %}
+        {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+                  {{ property.name }}From, 
+                  {{ property.name }}To,
+      {% endif %}
+      {% endfor %}
+                  categoryId).map(_.map(Get{{- product.name }}Full.{{- product.name | lower() }}FullToGet{{- product.name }}Full))
+
+  }
+
 }
