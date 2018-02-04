@@ -10,7 +10,7 @@ product Product base {
     manufacturer: string
     price: double
     description: string
-    productURl: string
+    productUrl: string
     quantity: int
 }
 

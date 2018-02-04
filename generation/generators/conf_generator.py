@@ -19,6 +19,7 @@ class ConfGenerator(Generator):
     def generate(self, model):
         self.generate_conf_model(model)
         self.generate_routes_model(model)
+        self.generate_scalafmt_conf()
 
     def generate_conf_model(self, model):
         self.main_generator.generate("conf_template.conf",
@@ -29,4 +30,8 @@ class ConfGenerator(Generator):
         self.main_generator.generate("routes_template",
                  os.path.join("conf"), "routes",
                  {"model": model})
-
+    
+    def generate_scalafmt_conf(self):
+        self.main_generator.generate(".scalafmt_template.conf",
+                 os.path.join(""), ".scalafmt.conf",
+                 {})

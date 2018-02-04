@@ -26,5 +26,36 @@ class {{ product.name }}Controller @Inject()(cc: ControllerComponents,
 
     }
   }
+    {% if product.type == "base" %}
+  
+  def search(
+  {% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+            {{ property.name }}: Option[{{property.type}}],
+    {% endif %}
+  {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+            {{ property.name }}From: Option[{{property.type}}],
+            {{ property.name }}To: Option[{{property.type}}],
+    {% endif %}
+{% endfor %}
+            categoryId: Option[Long]) = Action.async {
+
+    {{ product.name|lower() }}Service.search(
+      {% for property in product.properties %}
+        {% if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" %}
+                  {{ property.name }},
+      {% endif %}
+        {% if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
+                  {{ property.name }}From, 
+                  {{ property.name }}To,
+      {% endif %}
+      {% endfor %}
+                  categoryId) map (result => Ok(Json.toJson(result)))
+  }
+    {% endif %}
 }
 
