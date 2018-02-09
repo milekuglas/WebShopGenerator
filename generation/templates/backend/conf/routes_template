@@ -1,0 +1,61 @@
+GET     /{{model.base_product.name|lower()}}        {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.getAll(page: Int ?= 1, size: Int ?= 10,
+  {%- for property in model.base_product.properties -%}
+    {%- if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" -%}
+{{- property.name -}}: Option[{{property.type}}],
+    {%- endif -%}
+  {%- if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" -%}
+            {{- property.name -}}From: Option[{{property.type}}],
+            {{- property.name -}}To: Option[{{property.type}}],
+    {%- endif -%}
+{%- endfor -%}categoryId: Option[Long])
+GET     /{{model.base_product.name|lower()}}/:id           {{ model.project.package.name }}.controller.{{model.base_product.name}}Controller.get(id: Long)
+
+{% for product in model.products %}
+GET     /{{product.name|lower()}}        {{ model.project.package.name }}.controller.{{product.name}}FullController.getAll(page: Int ?= 1, size: Int ?= 10,
+  {%- for property in model.base_product.properties -%}
+    {%- if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" -%}
+{{- property.name -}}: Option[{{property.type}}],
+    {%- endif -%}
+  {%- if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" -%}
+            {{- property.name -}}From: Option[{{property.type}}],
+            {{- property.name -}}To: Option[{{property.type}}],
+    {%- endif -%}
+{%- endfor -%}
+  {%- for property in product.properties -%}
+    {%- if property.type.name != "Long" and property.type.name != "Int" 
+  and property.type.name != "Double" and property.type.name != "Float" -%}
+{{- property.name -}}: Option[{{property.type}}],
+    {%- endif -%}
+  {%- if (property.type.name == "Long" or property.type.name == "Int" 
+  or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" -%}
+            {{- property.name -}}From: Option[{{property.type}}],
+            {{- property.name -}}To: Option[{{property.type}}],
+    {%- endif -%}
+{%- endfor -%}categoryId: Option[Long])
+GET     /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.get(id: Long)
+POST    /{{ product.name|lower() }}             {{ model.project.package.name }}.controller.{{ product.name }}FullController.add
+DELETE  /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.delete(id: Long)
+PUT     /{{ product.name|lower() }}/:id         {{ model.project.package.name }}.controller.{{ product.name }}FullController.update(id: Long)
+
+{% endfor %}
+
+GET     /category               {{ model.project.package.name }}.controller.CategoryController.getAll
+GET     /category/:id           {{ model.project.package.name }}.controller.CategoryController.get(id: Long)
+GET     /category/:id/subcategory           {{ model.project.package.name }}.controller.CategoryController.getAllSubcategories(id: Long)
+POST    /category               {{ model.project.package.name }}.controller.CategoryController.add
+DELETE  /category/:id           {{ model.project.package.name }}.controller.CategoryController.delete(id: Long)
+PUT     /category/:id           {{ model.project.package.name }}.controller.CategoryController.update(id: Long)
+
+GET     /order-item                             {{ model.project.package.name }}.controller.OrderItemController.getAll(page: Int ?= 1, size: Int ?= 10)
+GET     /order-item/shopping-cart/:id           {{ model.project.package.name }}.controller.OrderItemController.getByShoppingCartId(id: Long)
+GET     /order-item/user-id/:id           {{ model.project.package.name }}.controller.OrderItemController.getByUserId(id: Long, page: Int ?= 1, size: Int ?= 10)
+POST    /order-item                             {{ model.project.package.name }}.controller.OrderItemController.add
+DELETE     /order-item/:id         {{ model.project.package.name }}.controller.OrderItemController.delete(id: Long)
+PUT     /order-item/:id         {{ model.project.package.name }}.controller.OrderItemController.update(id: Long)
+
+GET     /order                           {{ model.project.package.name }}.controller.OrderController.getAll
+POST    /order                             {{ model.project.package.name }}.controller.OrderController.add
