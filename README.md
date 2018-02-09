@@ -11,7 +11,7 @@
 
 ## Run generated project
 ```
-  cd output
+  cd output\backend
   sbt scalafmt
   sbt run
 ```
