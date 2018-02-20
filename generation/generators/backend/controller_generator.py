@@ -19,6 +19,8 @@ class ControllerGenerator(Generator):
     def generate(self, model):
         self.generate_base_controller_model(model)
         self.generate_controller_full_model(model)
+        self.generate_auth_controller_model(model)
+        self.generate_user_controller_model(model)
 
     def generate_base_controller_model(self, model):
         self.main_generator.generate("backend/app/controller/controller_template.scala",
@@ -34,3 +36,18 @@ class ControllerGenerator(Generator):
                      {"package": model.project.package, "product": model.products[i],
                       "base_product": model.base_product})
 
+    def generate_auth_controller_model(self, model):
+        self.main_generator.generate(
+            "backend/app/controller/controller_auth_template.scala",
+            os.path.join("backend", "app", model.project.package.name.replace(".", os.sep), "controller"),
+            "AuthController.scala",
+            {"package": model.project.package}
+        )
+
+    def generate_user_controller_model(self, model):
+        self.main_generator.generate(
+            "backend/app/controller/controller_user_template.scala",
+            os.path.join("backend", "app", model.project.package.name.replace(".", os.sep), "controller"),
+            "UserController.scala",
+            {"package": model.project.package}
+        )

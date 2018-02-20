@@ -59,3 +59,12 @@ PUT     /order-item/:id         {{ model.project.package.name }}.controller.Orde
 
 GET     /order                           {{ model.project.package.name }}.controller.OrderController.getAll
 POST    /order                             {{ model.project.package.name }}.controller.OrderController.add
+
++noauth
+POST    /auth/login                            {{ model.project.package.name }}.controller.AuthController.login
+
++noauth
+POST    /auth/refresh                          {{ model.project.package.name }}.controller.AuthController.refresh
+
++noauth
+POST    /user                                  {{ model.project.package.name }}.controller.UserController.register

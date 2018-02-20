@@ -11,7 +11,8 @@ Project:
     'project' name=ID '{'
         (package=Package
         database=Database
-        build=BuildTool)#
+        build=BuildTool
+        jwt=JWTSecret)#
     '}'
 ;
 
@@ -29,6 +30,10 @@ DatabaseType:
 
 BuildTool:
     'build_tool:' name=BuildType
+;
+
+JWTSecret:
+    'jwt_secret:' name=/[a-zA-Z0-9]*/
 ;
 
 BuildType:

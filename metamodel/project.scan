@@ -2,6 +2,7 @@ project App {
     package: org.my
     database: H2
     build_tool: SBT
+    jwt_secret: jwtsecret
 }
 
 product Product base {

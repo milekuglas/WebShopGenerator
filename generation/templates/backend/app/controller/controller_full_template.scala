@@ -46,7 +46,7 @@ class {{ product.name }}FullController @Inject()(cc: ControllerComponents,
     }
   }
 
-    def getAll(
+  def getAll(
     page: Int,
     size: Int,
     {% for property in base_product.properties %}

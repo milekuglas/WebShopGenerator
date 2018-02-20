@@ -20,6 +20,9 @@ class UserRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   def get(id: Long): Future[Option[User]] =
     db.run(Users.filter(_.id === id).result.headOption)
 
+  def findByUsername(username: String): Future[Option[User]] =
+    db.run(Users.filter(_.username === username).result.headOption)
+
   def insert(user: User): Future[User] =
     db.run((Users returning Users) += user)
 
