@@ -1,5 +1,6 @@
 import subprocess
 import os
+from sys import platform
 
 from generation.generators.generator import Generator
 
@@ -15,7 +16,10 @@ class BaseAppGenerator(Generator):
         self.generate_app_component(model)
 
     def generate_base_app(self, model):
-        subprocess.check_call(["ng", "new", model.project.name, "--directory", "./output/frontend"])
+        shell = False
+        if platform == 'win32':
+            shell = True
+        subprocess.check_call(["ng", "new", model.project.name, "--directory", "./output/frontend"], shell=shell)
         self.main_generator.generate(
             "frontend/package.json",
             os.path.join("frontend"),

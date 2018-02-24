@@ -35,7 +35,10 @@ from generation.generators.frontend.starter_generator import StarterGenerator
 
 
 if __name__ == '__main__':
-    shutil.rmtree('./output/frontend')
+    try:
+        shutil.rmtree('./output/frontend')
+    except:
+        pass
     parser = Parser()
     model = parser.parse(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', True)
     main_generator = MainGenerator()
