@@ -44,3 +44,6 @@ tmtagsHistory
 #######
 output
 metamodel/*.dot
+
+# Virtual environment
+venv/
