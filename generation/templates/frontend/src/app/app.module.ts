@@ -11,23 +11,27 @@ import { StarterComponent } from './starter/starter.component';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './app.routes';
+import { ProfileModule } from "./profile/profile.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    StarterComponent,
-    HomeComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatTabsModule,
-    UserModule,
-    AuthModule,
-    AppRoutingModule,
-    MatToolbarModule
-  ],
-  bootstrap: [ AppComponent ]
+    declarations: [
+        AppComponent,
+        StarterComponent,
+        HomeComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatTabsModule,
+        UserModule,
+        AuthModule,
+        ProfileModule,
+        AppRoutingModule,
+        MatToolbarModule
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
+

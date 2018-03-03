@@ -32,6 +32,7 @@ from generation.generators.frontend.user_generator import UserGenerator as UserM
 from generation.generators.frontend.auth_generator import AuthGenerator
 from generation.generators.frontend.home_generator import HomeGenerator
 from generation.generators.frontend.starter_generator import StarterGenerator
+from generation.generators.frontend.profile_generator import ProfileGenerator
 
 
 if __name__ == '__main__':
@@ -83,11 +84,13 @@ if __name__ == '__main__':
     user_generator = UserModuleGenerator(main_generator)
     home_generator = HomeGenerator(main_generator)
     starter_generator = StarterGenerator(main_generator)
+    profile_generator = ProfileGenerator(main_generator)
 
     main_generator.add_generator(base_app_generator)
     main_generator.add_generator(auth_generator)
     main_generator.add_generator(user_generator)
     main_generator.add_generator(home_generator)
     main_generator.add_generator(starter_generator)
+    main_generator.add_generator(profile_generator)
 
     main_generator.generate_all(model)
