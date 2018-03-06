@@ -14,6 +14,7 @@ class BaseAppGenerator(Generator):
         self.generate_base_app(model)
         self.generate_environment(model)
         self.generate_app_component(model)
+        self.generate_shared_module(model)
 
     def generate_base_app(self, model):
         shell = False
@@ -82,5 +83,13 @@ class BaseAppGenerator(Generator):
             "frontend/src/app/app.routes.ts",
             os.path.join("frontend", "src", "app"),
             "app.routes.ts",
+            {}
+        )
+
+    def generate_shared_module(self, model):
+        self.main_generator.generate(
+            "frontend/src/app/shared/shared.module.ts",
+            os.path.join("frontend", "src", "app", "shared"),
+            "shared.module.ts",
             {}
         )

@@ -1,0 +1,41 @@
+<h2 class="title">Products</h2>
+<div class="product-header">
+    {% for property in product.properties %}
+        {% if property.name != 'id' %}
+        {% if property.type.name != "Long" and property.type.name != "Int"
+        and property.type.name != "Double" and property.type.name != "Float" %}
+    <mat-form-field>
+        <input matInput [(ngModel)]="searchQuery.{{property.name}}" placeholder="{{property.name}}">
+    </mat-form-field>
+        {% else %}
+    <mat-form-field>
+        <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}From" placeholder="Min. {{property.name}}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}To" placeholder="Max. {{property.name}}">
+    </mat-form-field>
+        {% endif %}
+        {% endif %}
+    {% endfor %}
+    <button mat-raised-button color="primary" (click)="search(searchQuery)">Search</button>
+</div>
+<div class="product-container mat-elevation-z8 centered-table">
+
+    <mat-table [dataSource]="dataSource" matSort>
+        {% for property in product.properties %}
+            {% if property.name != 'id' %}
+        <ng-container matColumnDef="{{property.name}}">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{property.name}} </mat-header-cell>
+            <mat-cell *matCellDef="let product">
+                {a product.{{property.name}} a}
+            </mat-cell>
+        </ng-container>
+            {% endif %}
+        {% endfor %}
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let product; columns: displayedColumns;">
+        </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+</div>
