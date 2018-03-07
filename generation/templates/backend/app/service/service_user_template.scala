@@ -8,13 +8,13 @@ import scala.util.Random
 
 import com.github.t3hnar.bcrypt.Password
 import {{ package.name }}.exception.UserNotFoundException
-import {{ package.name }}.model.User
-import {{ package.name }}.repository.UserRepository
+import {{ package.name }}.model.{ShoppingCart, User}
+import {{ package.name }}.repository.{ShoppingCartRepository, UserRepository}
 import {{ package.name }}.dto.RegisteredUser
 
 import play.api.Logger
 
-class UserService @Inject() (val userRepository: UserRepository)(implicit val ec: ExecutionContext) {
+class UserService @Inject() (val userRepository: UserRepository, val shoppingCartRepository: ShoppingCartRepository)(implicit val ec: ExecutionContext) {
 
   private val logger = Logger(this.getClass())
 
@@ -23,6 +23,7 @@ class UserService @Inject() (val userRepository: UserRepository)(implicit val ec
       user.copy(password = user.password.bcrypt, refreshToken = generateRefreshToken)
     userRepository.insert(hashedUser) map { result =>
       logger.info("user created")
+      shoppingCartRepository.insert(ShoppingCart(-1, result.id))
       result
     }
   }
@@ -41,7 +42,7 @@ class UserService @Inject() (val userRepository: UserRepository)(implicit val ec
 
 object UserService {
 
-  def apply(userRepository: UserRepository)(implicit ec: ExecutionContext): UserService =
-    new UserService(userRepository)
+  def apply(userRepository: UserRepository, shoppingCartRepository: ShoppingCartRepository)(implicit ec: ExecutionContext): UserService =
+    new UserService(userRepository, shoppingCartRepository)
 
 }

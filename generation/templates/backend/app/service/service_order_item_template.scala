@@ -15,8 +15,8 @@ class OrderItemService @Inject()(orderItemRepository: OrderItemRepository)(
     orderItemRepository.all(page, size).map(_.map(_.map(GetOrderItem.orderItemToGetOrderItem)))
   }
 
-  def getByShoppingCartId(id: Long): Future[Seq[GetOrderItem]] = {
-    orderItemRepository.getByShoppingCartId(id).map(_.map(GetOrderItem.orderItemToGetOrderItem))
+  def getShoppingCartByUserId(userId: Long): Future[Seq[GetOrderItem]] = {
+    orderItemRepository.getShoppingCartByUserId(userId).map(_.map(GetOrderItem.orderItemToGetOrderItem))
   }
 
   def getByUserId(id: Long, page: Int, size: Int): Future[Seq[Seq[GetOrderItem]]] = {
