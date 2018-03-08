@@ -1,0 +1,17 @@
+<div class="content">
+  <h2>{{ product.name|upper }}</h2>
+  <table class="mat-elevation-z8">
+  {% for property_title, property in base_product.properties %}
+  <tr>
+    <th align="left" width="150em">{{ property_title }}</th>
+    <td>{{ "{{" }} {{ product.name|lower }}.{{ base_product.name|lower }}.{{ property.name }} {{ "}}" }}</td>
+  </tr>
+  {% endfor %}
+  {% for property_title, property in product.properties %}
+  <tr>
+    <th align="left" width="150em">{{ property_title }}</th>
+    <td>{{ "{{" }} {{ product.name|lower }}.{{ product.name|lower }}.{{ property.name }} {{ "}}" }}</td>
+  </tr>
+  {% endfor %}
+  </table>
+</div>
