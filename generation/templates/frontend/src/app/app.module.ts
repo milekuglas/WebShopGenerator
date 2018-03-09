@@ -9,9 +9,6 @@ import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './app.routes';
 import { SharedModule } from './shared/shared.module';
 import { ProductModule } from './product/product.module';
-{% for product in products %}
-import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/{{ product.name|lower }}.module';
-{% endfor %}
 
 @NgModule({
   declarations: [
@@ -25,10 +22,7 @@ import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/
     UserModule,
     AuthModule,
     AppRoutingModule,
-    ProductModule,
-    {% for product in products %}
-    {{ product.name|capitalize }}Module,
-    {% endfor %}
+    ProductModule
   ],
   bootstrap: [ AppComponent ]
 })
