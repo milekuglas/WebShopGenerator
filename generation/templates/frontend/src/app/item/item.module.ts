@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 import { Single{{ product.name|capitalize }}Component } from './single/single-{{ product.name|lower }}.component';
 import { {{ product.name|capitalize }}Service } from './shared/{{ product.name|lower }}.service';
+import { ShoppingCartModule } from '../shopping-cart/shopping-cart.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { {{ product.name|capitalize }}Service } from './shared/{{ product.name|l
     {{ product.name|capitalize }}Service
   ],
   imports: [
-    MatButtonModule
+    SharedModule,
+    FormsModule,
+    ShoppingCartModule
   ],
   exports: [
     Single{{ product.name|capitalize }}Component

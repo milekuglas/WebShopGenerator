@@ -44,7 +44,7 @@ class ItemGenerator(Generator):
                 "frontend/src/app/item/single/single-item.component.ts",
                 os.path.join("frontend", "src", "app", model.products[i].name.lower(), "single"),
                 "single-" + model.products[i].name.lower() + ".component.ts",
-                {"product": model.products[i]}
+                {"base_product": model.base_product, "product": model.products[i]}
             )
 
     def generate_item_service(self, model):
@@ -62,5 +62,5 @@ class ItemGenerator(Generator):
                 "frontend/src/app/item/item.module.ts",
                 os.path.join("frontend", "src", "app", model.products[i].name.lower()),
                 model.products[i].name.lower() + ".module.ts",
-                {"product": model.products[i]}
+                {"base_product": model.base_product, "product": model.products[i]}
             )
