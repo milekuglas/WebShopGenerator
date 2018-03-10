@@ -1,5 +1,7 @@
 <div class="content">
   <h2>{{ product.name|upper }}</h2>
+  <mat-form-field><input type="number" matInput placeholder="Quantity" [(ngModel)]="quantity" min="1"></mat-form-field>
+  <button mat-raised-button color="primary" (click)="addToCart()">Add To Cart</button>
   <table class="mat-elevation-z8">
   {% for property_title, property in base_product.properties %}
   <tr>

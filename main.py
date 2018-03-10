@@ -29,6 +29,7 @@ from generation.generators.backend.jwt_generator import JWTGenerator
 from generation.generators.backend.exception_generator import ExceptionGenerator
 from generation.generators.frontend.base_app_generator import BaseAppGenerator
 from generation.generators.frontend.user_generator import UserGenerator as UserModuleGenerator
+from generation.generators.frontend.shopping_cart_generator import ShoppingCartGenerator as SCGenerator
 from generation.generators.frontend.auth_generator import AuthGenerator
 from generation.generators.frontend.home_generator import HomeGenerator
 from generation.generators.frontend.starter_generator import StarterGenerator
@@ -87,6 +88,7 @@ if __name__ == '__main__':
     starter_generator = StarterGenerator(main_generator)
     product_generator = ProductGenerator(main_generator)
     item_generator = ItemGenerator(main_generator)
+    sc_generator = SCGenerator(main_generator)
 
     main_generator.add_generator(base_app_generator)
     main_generator.add_generator(auth_generator)
@@ -95,5 +97,6 @@ if __name__ == '__main__':
     main_generator.add_generator(starter_generator)
     main_generator.add_generator(product_generator)
     main_generator.add_generator(item_generator)
+    main_generator.add_generator(sc_generator)
 
     main_generator.generate_all(model)
