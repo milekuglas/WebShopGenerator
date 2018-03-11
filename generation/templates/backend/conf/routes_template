@@ -69,3 +69,4 @@ POST    /auth/refresh                          {{ model.project.package.name }}.
 
 +noauth
 POST    /user                                  {{ model.project.package.name }}.controller.UserController.register
+GET     /user/me                               {{ model.project.package.name }}.controller.UserController.me
