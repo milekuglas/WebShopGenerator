@@ -18,8 +18,12 @@ class OrderItemController @Inject()(cc: ControllerComponents, orderItemService: 
     orderItemService.getAll(page, size) map (result => Ok(Json.toJson(result)))
   }
 
-  def getByShoppingCartId(id: Long) = Action.async {
-    orderItemService.getByShoppingCartId(id) map (result => Ok(Json.toJson(result)))
+  def getShoppingCartItemsByUserId(userId: Long) = Action.async {
+    orderItemService.getShoppingCartItemsByUserId(userId) map (result => Ok(Json.toJson(result)))
+  }
+
+   def getShoppingCartByUserId(userId: Long) = Action.async {
+    orderItemService.getShoppingCartByUserId(userId) map (result => Ok(Json.toJson(result.id)))
   }
 
   def getByUserId(id: Long, page: Int, size: Int) = Action.async {

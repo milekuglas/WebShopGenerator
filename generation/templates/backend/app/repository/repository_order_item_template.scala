@@ -1,8 +1,8 @@
 package {{ package.name }}.repository
 
 import slick.jdbc.PostgresProfile.api._
-import {{ package.name }}.model.OrderItem
-import {{ package.name }}.repository.table.{OrderItemTable, OrderTable, UserTable}
+import {{ package.name }}.model.{OrderItem, ShoppingCart}
+import {{ package.name }}.repository.table.{OrderItemTable, OrderTable, ShoppingCartTable, UserTable}
 import javax.inject.{Inject, Singleton}
 
 import play.api.db.slick.DatabaseConfigProvider
@@ -15,6 +15,7 @@ class OrderItemRepository @Inject()(protected val dbConfigProvider: DatabaseConf
   val OrderItems = TableQuery[OrderItemTable]
   val Orders     = TableQuery[OrderTable]
   val Users      = TableQuery[UserTable]
+  val ShoppingCarts = TableQuery[ShoppingCartTable]
 
   val db = dbConfigProvider.get.db
 
@@ -28,8 +29,16 @@ class OrderItemRepository @Inject()(protected val dbConfigProvider: DatabaseConf
         orderItems.groupBy(_.orderId).drop((page - 1) * size).take(size).valuesIterator.toSeq
     }))
 
-  def getByShoppingCartId(id: Long): Future[Seq[OrderItem]] =
-    db.run(OrderItems.filter(_.shoppingCartId === id).result)
+  def getShoppingCartItemsByUserId(userId: Long): Future[Seq[OrderItem]] =
+    db.run({
+      for {
+        sc <- ShoppingCarts if sc.userId === userId
+        orderItem     <- OrderItems if orderItem.shoppingCartId === sc.id
+      } yield orderItem
+    }.result)
+
+   def getShoppingCartByUserId(userId: Long): Future[ShoppingCart] =
+    db.run(ShoppingCarts.filter(_.userId === userId).result.head)
 
   def getByUserId(id: Long, page: Int, size: Int): Future[Seq[Seq[OrderItem]]] =
     db.run({
