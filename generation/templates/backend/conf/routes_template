@@ -51,6 +51,7 @@ DELETE  /category/:id           {{ model.project.package.name }}.controller.Cate
 PUT     /category/:id           {{ model.project.package.name }}.controller.CategoryController.update(id: Long)
 
 GET     /order-item                             {{ model.project.package.name }}.controller.OrderItemController.getAll(page: Int ?= 1, size: Int ?= 10)
+GET     /order/:id/order-item                   {{ model.project.package.name }}.controller.OrderItemController.getByOrderId(id: Long)
 GET     /order-item/shopping-cart/user/:userId           {{ model.project.package.name }}.controller.OrderItemController.getShoppingCartItemsByUserId(userId: Long)
 GET     /shopping-cart/:userId           {{ model.project.package.name }}.controller.OrderItemController.getShoppingCartByUserId(userId: Long)
 GET     /order-item/user-id/:id           {{ model.project.package.name }}.controller.OrderItemController.getByUserId(id: Long, page: Int ?= 1, size: Int ?= 10)

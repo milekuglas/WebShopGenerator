@@ -11,8 +11,8 @@ import {{ package.name }}.repository.OrderRepository
 class OrderService @Inject()(orderRepository: OrderRepository)(
   implicit executionContext: ExecutionContext) {
 
-  def getAll: Future[Seq[GetOrder]] = {
-    orderRepository.all().map(_.map(GetOrder.orderToGetOrder))
+  def getAll(userId: Long): Future[Seq[GetOrder]] = {
+    orderRepository.all(userId).map(_.map(GetOrder.orderToGetOrder))
   }
 
   def insert(order: PostOrder): Future[GetOrder] = {

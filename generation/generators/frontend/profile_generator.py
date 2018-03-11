@@ -10,6 +10,7 @@ class ProfileGenerator(Generator):
 
     def generate(self, model):
         self.generate_profile_component(model)
+        self.generate_shared()
         self.generate_module(model)
 
     def generate_profile_component(self, model):
@@ -83,6 +84,38 @@ class ProfileGenerator(Generator):
             "frontend/src/app/profile/shopping-history/shopping-history.component.ts",
             os.path.join("frontend", "src", "app", "profile/shopping-history"),
             "shopping-history.component.ts",
+            {}
+        )
+
+    def generate_shared(self):
+        self.main_generator.generate(
+            "frontend/src/app/profile/shared/order.model.ts",
+            os.path.join("frontend", "src", "app", "profile/shared"),
+            "order.model.ts",
+            {}
+        )
+        self.main_generator.generate(
+            "frontend/src/app/profile/shared/order.service.ts",
+            os.path.join("frontend", "src", "app", "profile/shared"),
+            "order.service.ts",
+            {}
+        )
+        self.main_generator.generate(
+            "frontend/src/app/profile/shared/order-item.model.ts",
+            os.path.join("frontend", "src", "app", "profile/shared"),
+            "order-item.model.ts",
+            {}
+        )
+        self.main_generator.generate(
+            "frontend/src/app/profile/shared/order-item.service.ts",
+            os.path.join("frontend", "src", "app", "profile/shared"),
+            "order-item.service.ts",
+            {}
+        )
+        self.main_generator.generate(
+            "frontend/src/app/profile/shared/order-item-product.model.ts",
+            os.path.join("frontend", "src", "app", "profile/shared"),
+            "order-item-product.model.ts",
             {}
         )
 

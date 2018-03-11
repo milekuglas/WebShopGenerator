@@ -9,7 +9,7 @@ import {User} from '../../user/shared/user.model';
 })
 export class UserInfoComponent implements OnInit {
 
-  user: User;
+  user: User = new User();
 
   constructor(private userService: UserService) {
   }

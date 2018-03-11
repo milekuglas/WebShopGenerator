@@ -38,4 +38,9 @@ constructor(private http: HttpClient) {}
     const url = `${environment.baseUrl}${this.productUrl}/search`;
     return this.http.get<Product[]>(url, options);
   }
+
+  getProduct(productId: number): Observable<Product> {
+    const url = `${environment.baseUrl}${this.productUrl}/${productId}`;
+    return this.http.get<Product>(url, {});
+  }
 }
