@@ -16,8 +16,8 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<Order> {
+  get(): Observable<[Order]> {
     const url = `${environment.baseUrl}${this.orderUrl}`;
-    return this.http.get<Order>(url, httpOptions);
+    return this.http.get<[Order]>(url, httpOptions);
   }
 }

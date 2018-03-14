@@ -4,5 +4,5 @@ export class Order {
   id: number;
   totalPrice: number;
   userId: number;
-  orderItemProducts: [OrderItemProduct];
+  orderItemProducts: OrderItemProduct[];
 }

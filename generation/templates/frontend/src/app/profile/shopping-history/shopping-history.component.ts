@@ -14,7 +14,7 @@ import {Order} from '../shared/order.model';
 export class ShoppingHistoryComponent implements OnInit {
 
   orders: [Order];
-  dataSources: [MatTableDataSource<OrderItemProduct>];
+  dataSources: MatTableDataSource<OrderItemProduct>[];
 
   displayedColumns = [
     'name',
@@ -49,7 +49,7 @@ export class ShoppingHistoryComponent implements OnInit {
       }
       this.orders = orders;
       setTimeout(() => {
-        let sources: [MatTableDataSource<OrderItemProduct>] = [];
+        let sources: MatTableDataSource<OrderItemProduct>[] = [];
         for (const order of this.orders) {
           sources.push(new MatTableDataSource<OrderItemProduct>(order.orderItemProducts));
         }
