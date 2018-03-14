@@ -1,33 +1,43 @@
 <h2 class="title">Products</h2>
 <div class="product-header">
-    {% for property_title, property in product.properties %}
+    {% for property_title, property in (base_product.properties|list + product.properties|list) %}
         {% if property.name != 'id' %}
-        {% if property.type.name != "Long" and property.type.name != "Int"
-        and property.type.name != "Double" and property.type.name != "Float" %}
+            {% if property.type.name != "Long" and property.type.name != "Int"
+            and property.type.name != "Double" and property.type.name != "Float" %}
     <mat-form-field>
         <input matInput [(ngModel)]="searchQuery.{{property.name}}" placeholder="{{property_title}}">
     </mat-form-field>
-        {% else %}
+            {% else %}
     <mat-form-field>
         <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}From" placeholder="Min. {{property_title}}">
     </mat-form-field>
     <mat-form-field>
         <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}To" placeholder="Max. {{property_title}}">
     </mat-form-field>
-        {% endif %}
+            {% endif %}
         {% endif %}
     {% endfor %}
     <button mat-raised-button color="primary" (click)="search(searchQuery)">Search</button>
 </div>
 <div class="product-container mat-elevation-z8 centered-table">
-
     <mat-table [dataSource]="dataSource" matSort>
+        {% for property_title, property in base_product.properties %}
+        {% if property.name != 'id' %}
+        <ng-container matColumnDef="{{property.name}}">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{property_title}} </mat-header-cell>
+            <mat-cell *matCellDef="let product">
+                {a product.{{base_product.name|lower}}.{{property.name}} a}
+            </mat-cell>
+        </ng-container>
+        {% endif %}
+        {% endfor %}
+
         {% for property_title, property in product.properties %}
             {% if property.name != 'id' %}
         <ng-container matColumnDef="{{property.name}}">
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{property_title}} </mat-header-cell>
             <mat-cell *matCellDef="let product">
-                {a product.{{property.name}} a}
+                {a product.{{product.name|lower}}.{{property.name}} a}
             </mat-cell>
         </ng-container>
             {% endif %}
