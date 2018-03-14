@@ -1,6 +1,8 @@
 import os
 
 from generation.generators.generator import Generator
+from copy import copy
+from ...utils import get_property_titles
 
 
 class ProductGenerator(Generator):
@@ -35,11 +37,14 @@ class ProductGenerator(Generator):
         )
 
     def generate_product_search_component(self, model):
+        product = copy(model.base_product)
+        prop_titles = get_property_titles(product.properties)
+        product.properties = list(zip(prop_titles, product.properties))
         self.main_generator.generate(
             "frontend/src/app/product/product-search/product-search.component.html",
             os.path.join("frontend", "src", "app", "product", "product-search"),
             "product-search.component.html",
-            {"product": model.base_product}
+            {"product": product}
         )
         self.main_generator.generate(
             "frontend/src/app/product/product-search/product-search.component.css",

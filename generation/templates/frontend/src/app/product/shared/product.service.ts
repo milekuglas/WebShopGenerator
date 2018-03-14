@@ -35,7 +35,7 @@ constructor(private http: HttpClient) {}
     {% endfor %}
 
     const options = { params: Params };
-    const url = `${environment.baseUrl}${this.productUrl}/search`;
+    const url = `${environment.baseUrl}${this.productUrl}`;
     return this.http.get<Product[]>(url, options);
   }
 }
