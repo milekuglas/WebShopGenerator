@@ -15,7 +15,8 @@ class OrderRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPr
 
   val db = dbConfigProvider.get.db
 
-  def all(): Future[Seq[Order]] = db.run(Orders.result)
+  def all(userId: Long): Future[Seq[Order]] =
+    db.run(Orders.filter(_.userId === userId).result)
 
   def insert(order: Order): Future[Order] =
     db.run((Orders returning Orders) += order)

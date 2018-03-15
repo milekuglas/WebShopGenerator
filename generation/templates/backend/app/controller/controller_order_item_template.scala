@@ -3,8 +3,9 @@ package {{ package.name }}.controller
 import javax.inject.{Inject, Singleton}
 
 import {{ package.name }}.dto.PostOrderItem
+import {{ package.name }}.dto.JwtUser
 import play.api.libs.json._
-import play.api.mvc.{AbstractController, Action, ControllerComponents}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 import {{ package.name }}.service.OrderItemService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -18,12 +19,26 @@ class OrderItemController @Inject()(cc: ControllerComponents, orderItemService: 
     orderItemService.getAll(page, size) map (result => Ok(Json.toJson(result)))
   }
 
-  def getShoppingCartItemsByUserId(userId: Long) = Action.async {
-    orderItemService.getShoppingCartItemsByUserId(userId) map (result => Ok(Json.toJson(result)))
+  def getByOrderId(orderId: Long) = Action.async {
+    orderItemService.getOrderItemsByOrderId(orderId) map (result => Ok(Json.toJson(result)))
   }
 
-   def getShoppingCartByUserId(userId: Long) = Action.async {
-    orderItemService.getShoppingCartByUserId(userId) map (result => Ok(Json.toJson(result.id)))
+  def getShoppingCartItemsByUserId: Action[AnyContent] = Action.async { request =>
+
+    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
+      NotFound
+    }.asInstanceOf[JwtUser]
+
+    orderItemService.getShoppingCartItemsByUserId(currentUser.id) map (result => Ok(Json.toJson(result)))
+  }
+
+   def getShoppingCartByUserId: Action[AnyContent] = Action.async { request =>
+
+     val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
+       NotFound
+     }.asInstanceOf[JwtUser]
+
+     orderItemService.getShoppingCartByUserId(currentUser.id) map (result => Ok(Json.toJson(result.id)))
   }
 
   def getByUserId(id: Long, page: Int, size: Int) = Action.async {
