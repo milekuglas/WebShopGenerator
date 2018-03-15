@@ -18,7 +18,8 @@ class BaseAppGenerator(Generator):
 
     def generate_base_app(self, model):
         shell = platform == 'win32'
-        subprocess.check_call(["ng", "new", model.project.name, "--directory", "output/frontend"], shell=shell)
+        subprocess.check_call(["ng", "new", model.project.name, "--directory", "output/frontend", "--skip-install"], shell=shell)
+
         self.main_generator.generate(
             "frontend/package.json",
             os.path.join("frontend"),

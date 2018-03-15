@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from "./profile/profile.component";
 {% for product in products %}
 import { Single{{ product.name|capitalize }}Component } from './{{ product.name|lower }}/single/single-{{ product.name|lower }}.component';
+import { {{ product.name|capitalize }}SearchComponent } from './{{ product.name|lower }}/search/{{ product.name|lower }}-search.component';
 {% endfor %}
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [ AuthGuardService ] },
   {% for product in products %}
   { path: '{{ product.name|lower }}/:id', component: Single{{ product.name|capitalize }}Component, canActivate: [ AuthGuardService ] },
+  { path: '{{ product.name|lower }}', component: {{ product.name|capitalize }}SearchComponent, canActivate: [ AuthGuardService ] },
   {% endfor %}
 ];
 
