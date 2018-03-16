@@ -10,7 +10,7 @@ export class ShoppingCartService {
   constructor(private http: HttpClient) { }
 
   getCart(id: number) {
-    return this.http.get(`${environment.baseUrl}${this.scURL}/${id}`);
+    return this.http.get(`${environment.baseUrl}${this.scURL}`);
   }
 
 }
