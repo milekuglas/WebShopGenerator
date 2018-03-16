@@ -4,7 +4,6 @@ Created on Jan 5, 2018
 @author: Milorad Vojnovic
 '''
 
-
 import os
 import shutil
 
@@ -34,9 +33,9 @@ from generation.generators.frontend.shopping_cart_generator import ShoppingCartG
 from generation.generators.frontend.auth_generator import AuthGenerator
 from generation.generators.frontend.home_generator import HomeGenerator
 from generation.generators.frontend.starter_generator import StarterGenerator
+from generation.generators.frontend.profile_generator import ProfileGenerator
 from generation.generators.frontend.product_generator import ProductGenerator
 from generation.generators.frontend.item_generator import ItemGenerator
-
 
 if __name__ == '__main__':
     try:
@@ -89,6 +88,7 @@ if __name__ == '__main__':
     user_generator = UserModuleGenerator(main_generator)
     home_generator = HomeGenerator(main_generator)
     starter_generator = StarterGenerator(main_generator)
+    profile_generator = ProfileGenerator(main_generator)
     product_generator = ProductGenerator(main_generator)
     item_generator = ItemGenerator(main_generator)
     sc_generator = SCGenerator(main_generator)
@@ -98,6 +98,7 @@ if __name__ == '__main__':
     main_generator.add_generator(user_generator)
     main_generator.add_generator(home_generator)
     main_generator.add_generator(starter_generator)
+    main_generator.add_generator(profile_generator)
     main_generator.add_generator(product_generator)
     main_generator.add_generator(item_generator)
     main_generator.add_generator(sc_generator)

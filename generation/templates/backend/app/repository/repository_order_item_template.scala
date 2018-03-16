@@ -29,6 +29,9 @@ class OrderItemRepository @Inject()(protected val dbConfigProvider: DatabaseConf
         orderItems.groupBy(_.orderId).drop((page - 1) * size).take(size).valuesIterator.toSeq
     }))
 
+  def getByOrderId(orderId: Long): Future[Seq[OrderItem]] =
+    db.run(OrderItems.filter(_.orderId === orderId).result)
+
   def getShoppingCartItemsByUserId(userId: Long): Future[Seq[OrderItem]] =
     db.run({
       for {

@@ -7,6 +7,7 @@ import scala.concurrent.Future
 
 import {{ package.name }}.dto.RegisterUser
 import {{ package.name }}.dto.RegisteredUser
+import {{ package.name }}.dto.JwtUser
 import {{ package.name }}.service.UserService
 
 import play.api.Logger
@@ -44,4 +45,14 @@ class UserController @Inject() (
     }
   }
 
+  def me: Action[AnyContent] = Action.async { request =>
+
+    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
+        NotFound
+    }.asInstanceOf[JwtUser]
+
+    userService.get(currentUser.id).map { user =>
+      Ok(Json.toJson(RegisteredUser.userToRegisteredUser(user)))
+    }
+  }
 }

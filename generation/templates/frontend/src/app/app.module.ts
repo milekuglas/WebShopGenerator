@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './app.routes';
 import { SharedModule } from './shared/shared.module';
+    import { ProfileModule } from "./profile/profile.module";
 import { ProductModule } from './product/product.module';
 {% for product in products %}
 import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/{{ product.name|lower }}.module';
@@ -25,6 +26,7 @@ import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/
     UserModule,
     AuthModule,
     AppRoutingModule,
+      ProfileModule,
     ProductModule,
     {% for product in products %}
     {{ product.name|capitalize }}Module,
@@ -32,4 +34,6 @@ import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/
   ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+}
+
