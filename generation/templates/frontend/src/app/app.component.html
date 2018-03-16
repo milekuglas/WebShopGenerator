@@ -1,0 +1,44 @@
+<mat-toolbar *ngIf="user()" color="primary" class="mat-elevation-z6 top-bar">
+    <a mat-button routerLink="/">
+        Web Shop
+    </a>
+    <span *ngIf="categories.length > 0 && categories.length === getCatDictSize()">
+    <button mat-button [matMenuTriggerFor]="noparent">Categories</button>
+    <mat-menu #noparent="matMenu">
+      <ng-container *ngFor="let category of categories">
+        <span *ngIf="category.subcategories.length > 0 && category.superCategoryId == undefined">
+          <button mat-menu-item [matMenuTriggerFor]="sub_menu">{a category.name a}</button>
+          <mat-menu #sub_menu="matMenu">
+            <ng-template #recursiveList let-list>
+              <span *ngFor="let cat of list">
+                <span *ngIf="catDict[cat.id].subcategories.length == 0">
+                  <button mat-menu-item [routerLink]="[cat.name|lowercase]">{a cat.name a}</button>
+                </span>
+                <span *ngIf="catDict[cat.id].subcategories.length != 0">
+                  <button mat-menu-item [matMenuTriggerFor]="sub_menu">{a cat.name a}</button>
+                  <mat-menu #sub_menu="matMenu">
+                    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: catDict[cat.id].subcategories }"></ng-container>
+                  </mat-menu>
+                </span>
+              </span>
+            </ng-template>
+            <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: category.subcategories }"></ng-container>
+          </mat-menu>
+
+        </span>
+        <span *ngIf="category.subcategories.length == 0 && category.superCategoryId == undefined">
+          <button mat-menu-item [routerLink]="[category.name|lowercase]">{a category.name a}</button>
+        </span>
+      </ng-container>
+    </mat-menu>
+  </span>
+
+    <span class="fill-space"></span>
+    <a mat-button routerLink="/profile">
+        Profile
+    </a>
+    <button mat-button (click)="logout()">
+        Log Out
+    </button>
+</mat-toolbar>
+<router-outlet></router-outlet>

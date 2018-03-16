@@ -11,7 +11,8 @@
 
 ## Run generated project
 ```
-  cd output
+  cd output\backend
+  sbt scalafmt
   sbt run
 ```
 Note: Download SBT from: https://www.scala-sbt.org/download.html (version: 0.13.15)
