@@ -2,17 +2,24 @@
 <div class="product-header">
     {% for property_title, property in (base_product.properties|list + product.properties|list) %}
         {% if property.name != 'id' %}
-            {% if property.type.name != "Long" and property.type.name != "Int"
-            and property.type.name != "Double" and property.type.name != "Float" %}
-    <mat-form-field>
-        <input matInput [(ngModel)]="searchQuery.{{property.name}}" placeholder="{{property_title}}">
-    </mat-form-field>
-            {% else %}
+            {% if property.type.name == "Long" or property.type.name == "Int"
+            or property.type.name == "Double" or property.type.name == "Float"%}
     <mat-form-field>
         <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}From" placeholder="Min. {{property_title}}">
     </mat-form-field>
     <mat-form-field>
         <input matInput type="number" [(ngModel)]="searchQuery.{{property.name}}To" placeholder="Max. {{property_title}}">
+    </mat-form-field>
+            {% elif property.type.name == "String" %}
+    <mat-form-field>
+        <input matInput [(ngModel)]="searchQuery.{{property.name}}" placeholder="{{property_title}}">
+    </mat-form-field>
+            {% else %}
+    <mat-form-field>
+        <mat-select placeholder="{{property_title}}" [(ngModel)]="searchQuery.{{property.name}}">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let enum of {{property.type.name}}Enums" [value]="enum.value">{a enum.name a}</mat-option>
+        </mat-select>
     </mat-form-field>
             {% endif %}
         {% endif %}
