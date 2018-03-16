@@ -43,35 +43,7 @@ Enum:
 ;
 
 Property:
-    name=ID ':' type=[Type] (validations+=Validation)?
-;
-
-Validation:
-    Id | Required | NotNull | Max | Min | Size
-;
-
-Id:
-    name='id'
-;
-
-Required:
-    name='required'
-;
-
-NotNull:
-    name='not_null'
-;
-
-Max:
-    'max' '(' value=INT ')'
-;
-
-Min:
-    'min' '(' value=INT ')'
-;
-
-Size:
-    'size' '(' min=INT ','  max=INT ')'
+    name=ID ':' type=[Type]
 ;
 
 Type:
