@@ -27,6 +27,17 @@ export class ProductSearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  {% for property in product.properties %}
+    {% if property.type.name != "Long" and property.type.name != "Int"
+        and property.type.name != "Double" and property.type.name != "Float"
+        and property.type.name != "String" %}
+    {{property.type.name}}Enums = [
+      {% for enum in property.type.values %}
+      {name: '{{enum}}', value: '{{enum}}'},
+      {% endfor %}];
+    {% endif %}
+  {% endfor %}
+
   search(seachQuery) {
     this.productService.getProductsSearch(seachQuery).subscribe(products => {
       this.products = products;
