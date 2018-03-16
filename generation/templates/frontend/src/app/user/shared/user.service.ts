@@ -27,18 +27,8 @@ export class UserService {
     );
   }
 
-  getAll(): Observable<User[]> {
-    const url = `${environment.baseUrl}${this.userUrl}`;
-    return this.http.get<User[]>(url, httpOptions).pipe(
-      catchError(err => {
-        return Observable.throw(new Error(err.error));
-      })
-    );
+  getUserData(): Observable<User> {
+    const url = `${environment.baseUrl}${this.userUrl}/me`;
+    return this.http.get<User>(url, httpOptions);
   }
-
-  getUserData(id: Number): Observable<User> {
-    const url = `${environment.baseUrl}${this.userUrl}/${id}`;
-    return this.http.get<User>(url);
-  }
-
 }

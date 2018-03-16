@@ -2,18 +2,26 @@ package {{ package.name }}.repository.table
 
 import {{ package.name }}.model.{{ product.name }}
 import slick.jdbc.PostgresProfile.api._
+{% for property in product.properties %}
+{%- if not property.primitive -%}
+import {{ package.name }}.model.{{ property.type.name }}._
+{% endif %}
+{% endfor %}
 
   class {{ product.name }}Table(tag: Tag) extends Table[{{ product.name }}](tag, "{{ product.name|upper()}}S") {
 
     val Categories = TableQuery[CategoryTable]
 
+    {% if product.type == "base" %}
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    {% endif %}
     {% if product.type == "inherited" %}
     val {{ base_product.name }}s = TableQuery[{{ base_product.name }}Table]
 
-    def {{ base_product.name|lower() }}Id = column[{{base_product.properties[0].type}}]("{{ base_product.name|lower() }}_id")
+    def {{ base_product.name|lower() }}Id = column[Long]("{{ base_product.name|lower() }}_id")
     {% endif %}
     {% for property in product.properties %}
-    def {{ property.name}} = column[{{property.type}}]("{{ property.name }}"{% if property.name == "id" %}, O.PrimaryKey, O.AutoInc{% endif %})
+    def {{ property.name}} = column[{{property.type.name}}]("{{ property.name }}"{% if property.name == "id" %}, O.PrimaryKey, O.AutoInc{% endif %})
     {% endfor %}
 
     {% if product.type == "inherited" %}
@@ -26,6 +34,7 @@ import slick.jdbc.PostgresProfile.api._
     {% endif %}
 
     def * = (
+    {%- if product.type == "base" -%} id, {% endif %}
     {%- if product.type == "inherited" %}
         {{- base_product.name|lower() }}Id{%- if True -%}, {% endif %}
     {%- endif %}

@@ -4,10 +4,10 @@ Created on Jan 5, 2018
 @author: Milorad Vojnovic
 '''
 
-
 import os
 import shutil
 
+from generation.generators.backend.enum_generator import EnumGenerator
 from generation.generators.backend.order_generator import OrderGenerator
 from generation.generators.backend.order_item_generator import OrderItemGenerator
 from generation.generators.backend.shopping_cart_generator import ShoppingCartGenerator
@@ -33,14 +33,14 @@ from generation.generators.frontend.shopping_cart_generator import ShoppingCartG
 from generation.generators.frontend.auth_generator import AuthGenerator
 from generation.generators.frontend.home_generator import HomeGenerator
 from generation.generators.frontend.starter_generator import StarterGenerator
+from generation.generators.frontend.profile_generator import ProfileGenerator
 from generation.generators.frontend.product_generator import ProductGenerator
 from generation.generators.frontend.item_generator import ItemGenerator
 from generation.generators.frontend.category_generator import CategoryGenerator as CategoryGeneratorFront
 
-
 if __name__ == '__main__':
     try:
-        shutil.rmtree('./output/frontend')
+        shutil.rmtree('./output')
     except Exception:
         pass
     parser = Parser()
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     shopping_cart_generator = ShoppingCartGenerator(main_generator)
     user_generator = UserGenerator(main_generator)
     exception_generator = ExceptionGenerator(main_generator)
+    enum_generator = EnumGenerator(main_generator)
 
     main_generator.add_generator(model_generator)
     main_generator.add_generator(repository_generator)
@@ -79,6 +80,7 @@ if __name__ == '__main__':
     main_generator.add_generator(shopping_cart_generator)
     main_generator.add_generator(user_generator)
     main_generator.add_generator(exception_generator)
+    main_generator.add_generator(enum_generator)
 
     # Frontend
 
@@ -87,6 +89,7 @@ if __name__ == '__main__':
     user_generator = UserModuleGenerator(main_generator)
     home_generator = HomeGenerator(main_generator)
     starter_generator = StarterGenerator(main_generator)
+    profile_generator = ProfileGenerator(main_generator)
     product_generator = ProductGenerator(main_generator)
     item_generator = ItemGenerator(main_generator)
     sc_generator = SCGenerator(main_generator)
@@ -97,6 +100,7 @@ if __name__ == '__main__':
     main_generator.add_generator(user_generator)
     main_generator.add_generator(home_generator)
     main_generator.add_generator(starter_generator)
+    main_generator.add_generator(profile_generator)
     main_generator.add_generator(product_generator)
     main_generator.add_generator(item_generator)
     main_generator.add_generator(sc_generator)

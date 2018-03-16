@@ -1,0 +1,44 @@
+<mat-card class="centered starter">
+  <h3>Shopping cart</h3>
+  <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.product.name }}" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="manufacturer">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Manufacturer </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.product.manufacturer }}" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.product.description }}" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.orderItem.quantity }}" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.orderItem.price }}" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="total">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Total </mat-header-cell>
+        <mat-cell *matCellDef="let orderItemProduct">
+          {{ "{{ orderItemProduct.orderItem.quantity * orderItemProduct.orderItem.price }}" }}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let orderItemProduct; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+</mat-card>

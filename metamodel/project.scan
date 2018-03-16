@@ -1,42 +1,45 @@
 project App {
     package: org.my
-    database: H2
-    build_tool: SBT
     jwt_secret: jwtsecret
 }
 
 product Product base {
-    id: long
     name: string
     manufacturer: string
     price: double
     description: string
     productUrl: string
     quantity: int
+    productType: ProductType
 }
 
 product Processor inherited {
     socket: string
-    processorType: string
     cores: int
     cache: int
     thread: int
     baseFrequency: double
     turboFrequency: double
+    processorType: ProcessorType
 }     
 
-product RAM inherited {
-    ram_type: string
+product Ram inherited {
+    ramType: string
     maxFrequency: double
     capacity: int
     voltage: double
     latency: int
-}    
+}
 
 category Computer
 category ComputerComponent -> Computer
-category Processor -> ComputerComponent      
-category RAM_Memory -> ComputerComponent
-category Intel -> Processor
-category AMD -> Processor
-category Kingston -> RAM_Memory
+category Processor -> ComputerComponent
+category Ram -> ComputerComponent
+
+enum ProcessorType {
+  SINGLE, DOUBLE, QUAD, HEXA, OCTA
+}
+
+enum ProductType {
+  NEW, ONSALE
+}
