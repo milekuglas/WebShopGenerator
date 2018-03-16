@@ -5,9 +5,10 @@ import { SharedModule } from '../shared/shared.module';
 import { ProductService } from './shared/product.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, SharedModule, HttpClientModule, FormsModule, RouterModule],
   exports: [ProductSearchComponent],
   declarations: [ProductSearchComponent],
   providers: [ProductService]

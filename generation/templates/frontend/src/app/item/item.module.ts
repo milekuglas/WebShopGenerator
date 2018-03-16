@@ -6,6 +6,7 @@ import { {{ product.name|capitalize }}SearchComponent } from './search/{{ produc
 import { {{ product.name|capitalize }}Service } from './shared/{{ product.name|lower }}.service';
 import { ShoppingCartModule } from '../shopping-cart/shopping-cart.module';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     SharedModule,
     FormsModule,
-    ShoppingCartModule
+    ShoppingCartModule,
+    RouterModule
   ],
   exports: [
     Single{{ product.name|capitalize }}Component,

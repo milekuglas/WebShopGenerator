@@ -26,7 +26,13 @@
         <ng-container matColumnDef="{{property.name}}">
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{property_title}} </mat-header-cell>
             <mat-cell *matCellDef="let product">
+                {% if property.name != 'name' %}
                 {a product.{{base_product.name|lower}}.{{property.name}} a}
+                {% else %}
+                <a [routerLink]="['/{{product.name|lower}}', product.{{base_product.name|lower}}.id]">
+                    {a product.{{base_product.name|lower}}.{{property.name}} a}
+                </a>
+                {% endif %}
             </mat-cell>
         </ng-container>
         {% endif %}

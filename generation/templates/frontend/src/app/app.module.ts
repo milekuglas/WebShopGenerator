@@ -12,6 +12,8 @@ import { ProductModule } from './product/product.module';
 {% for product in products %}
 import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/{{ product.name|lower }}.module';
 {% endfor %}
+import { CategoryService } from './category/shared/category.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     SharedModule,
     UserModule,
     AuthModule,
@@ -30,6 +33,7 @@ import { {{ product.name|capitalize }}Module } from './{{ product.name|lower }}/
     {{ product.name|capitalize }}Module,
     {% endfor %}
   ],
+  providers: [ CategoryService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

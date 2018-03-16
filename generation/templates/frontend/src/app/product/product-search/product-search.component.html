@@ -27,7 +27,11 @@
         <ng-container matColumnDef="{{property.name}}">
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{property_title}} </mat-header-cell>
             <mat-cell *matCellDef="let product">
-                {a product.{{property.name}} a}
+                {% if property.name != 'name' %}
+                    {a product.{{property.name}} a}
+                {% else %}
+                    <button mat-button (click)="goToProductInfoPage(product)">{a product.name a}</button>
+                {% endif %}
             </mat-cell>
         </ng-container>
             {% endif %}

@@ -4,6 +4,8 @@ import 'rxjs/add/operator/switchMap';
 import { Product } from '../shared/product.model';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ProductSearch } from './product-search.model';
+import { CategoryService } from '../../category/shared/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-search',
@@ -34,7 +36,19 @@ export class ProductSearchComponent implements OnInit {
     });
   }
 
-  constructor(private productService: ProductService) {}
+  goToProductInfoPage(product: Product) {
+    this.categoryService.getCategory(product.categoryId).subscribe(category => {
+      const url = '/' + category.name.toLowerCase() + '/' + product.id;
+      console.log(url);
+      this.router.navigateByUrl(url);
+    });
+  }
+
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.productService.getProducts().subscribe(products => {

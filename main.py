@@ -35,6 +35,7 @@ from generation.generators.frontend.home_generator import HomeGenerator
 from generation.generators.frontend.starter_generator import StarterGenerator
 from generation.generators.frontend.product_generator import ProductGenerator
 from generation.generators.frontend.item_generator import ItemGenerator
+from generation.generators.frontend.category_generator import CategoryGenerator as CategoryGeneratorFront
 
 
 if __name__ == '__main__':
@@ -89,6 +90,7 @@ if __name__ == '__main__':
     product_generator = ProductGenerator(main_generator)
     item_generator = ItemGenerator(main_generator)
     sc_generator = SCGenerator(main_generator)
+    category_generator = CategoryGeneratorFront(main_generator)
 
     main_generator.add_generator(base_app_generator)
     main_generator.add_generator(auth_generator)
@@ -98,5 +100,6 @@ if __name__ == '__main__':
     main_generator.add_generator(product_generator)
     main_generator.add_generator(item_generator)
     main_generator.add_generator(sc_generator)
+    main_generator.add_generator(category_generator)
 
     main_generator.generate_all(model)
