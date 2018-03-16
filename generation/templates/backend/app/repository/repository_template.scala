@@ -7,6 +7,11 @@ import {{ package.name }}.search.filter.MaybeFilter
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.{ExecutionContext, Future}
+{% for property in product.properties %}
+{%- if not property.primitive -%}
+import {{ package.name }}.model.{{ property.type.name }}._
+{% endif %}
+{% endfor %}
 
 @Singleton()
 class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
@@ -32,12 +37,12 @@ class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: Da
       {% for property in product.properties %}
     {% if property.type.name != "Long" and property.type.name != "Int" 
   and property.type.name != "Double" and property.type.name != "Float" %}
-            {{ property.name }}: Option[{{property.type}}],
+            {{ property.name }}: Option[{{property.type.name}}],
     {% endif %}
   {% if (property.type.name == "Long" or property.type.name == "Int" 
   or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
-            {{ property.name }}From: Option[{{property.type}}],
-            {{ property.name }}To: Option[{{property.type}}],
+            {{ property.name }}From: Option[{{property.type.name}}],
+            {{ property.name }}To: Option[{{property.type.name}}],
     {% endif %}
 {% endfor %}
             categoryId: Option[Long]): Future[Seq[{{ product.name }}]] =
@@ -59,12 +64,12 @@ class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: Da
         {% for property in product.properties %}
     {% if property.type.name != "Long" and property.type.name != "Int" 
   and property.type.name != "Double" and property.type.name != "Float" %}
-            {{ property.name }}: Option[{{property.type}}],
+            {{ property.name }}: Option[{{property.type.name}}],
     {% endif %}
   {% if (property.type.name == "Long" or property.type.name == "Int" 
   or property.type.name == "Double" or property.type.name == "Float") and property.name != "id" %}
-            {{ property.name }}From: Option[{{property.type}}],
-            {{ property.name }}To: Option[{{property.type}}],
+            {{ property.name }}From: Option[{{property.type.name}}],
+            {{ property.name }}To: Option[{{property.type.name}}],
     {% endif %}
 {% endfor %}
             categoryId: Option[Long]) = {
@@ -73,6 +78,7 @@ class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: Da
     {% for property in product.properties %}
     {% if property.type.name != "Long" and property.type.name != "Int" 
   and property.type.name != "Double" and property.type.name != "Float" %}
+  {%- if property.primitive -%}
       .filter({{ property.name }})(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }}.toLowerCase like "%"+value.toLowerCase+"%")
       {% endif %}
     {% if (property.type.name == "Long" or property.type.name == "Int" 
@@ -80,6 +86,10 @@ class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: Da
       .filter({{ property.name }}From)(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }} >= value)
       .filter({{ property.name }}To)(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }} <= value)
       {% endif %}
+      {% endif %}
+        {%- if not property.primitive -%}
+        .filter({{ property.name }})(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }} === value)
+        {% endif %}
     {% endfor %}
       .filter(categoryId)(value => product => product.categoryId === categoryId)
       .query

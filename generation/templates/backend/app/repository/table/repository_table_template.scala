@@ -2,6 +2,11 @@ package {{ package.name }}.repository.table
 
 import {{ package.name }}.model.{{ product.name }}
 import slick.jdbc.PostgresProfile.api._
+{% for property in product.properties %}
+{%- if not property.primitive -%}
+import {{ package.name }}.model.{{ property.type.name }}._
+{% endif %}
+{% endfor %}
 
   class {{ product.name }}Table(tag: Tag) extends Table[{{ product.name }}](tag, "{{ product.name|upper()}}S") {
 
@@ -16,7 +21,7 @@ import slick.jdbc.PostgresProfile.api._
     def {{ base_product.name|lower() }}Id = column[Long]("{{ base_product.name|lower() }}_id")
     {% endif %}
     {% for property in product.properties %}
-    def {{ property.name}} = column[{{property.type}}]("{{ property.name }}"{% if property.name == "id" %}, O.PrimaryKey, O.AutoInc{% endif %})
+    def {{ property.name}} = column[{{property.type.name}}]("{{ property.name }}"{% if property.name == "id" %}, O.PrimaryKey, O.AutoInc{% endif %})
     {% endfor %}
 
     {% if product.type == "inherited" %}

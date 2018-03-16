@@ -34,7 +34,7 @@ class ControllerGenerator(Generator):
                      os.path.join("backend", "app", model.project.package.name.replace(".", os.sep), "controller"),
                      model.products[i].name + "FullController.scala",
                      {"package": model.project.package, "product": model.products[i],
-                      "base_product": model.base_product})
+                      "base_product": model.base_product, "model": model})
 
     def generate_auth_controller_model(self, model):
         self.main_generator.generate(

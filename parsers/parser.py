@@ -77,6 +77,15 @@ class Parser(object):
                 raise TextXSemanticError('Category "%s" must be declared.' %
                                          product)
 
+        base_properties = set()
+        for pr in model.base_product.properties:
+            base_properties.add(pr.name)
+
+        for product in model.products:
+            for pr in product.properties:
+                if pr.name in base_properties:
+                    raise TextXSemanticError('Property "%s" is defined in base and in inherited product.' %
+                                             pr.name)
     def product_obj_processor(product):
         if product.name[0].islower():
             raise TextXSemanticError('Name "%s" must starts with upper character' %
@@ -100,6 +109,7 @@ class Parser(object):
         if property.name != camelcase(property.name):
                     raise TextXSemanticError('Property name "%s" must be in camel case notation.' %
                                          property.name)
+        property.primitive = property.type.name in ['Int', 'String', 'Long', 'Double', 'Byte', 'Float', 'Boolean']
 
     def parse(self, path, grammar_file_name, model_file_name, export_dot):
         meta_path = os.path.join(path, grammar_file_name)

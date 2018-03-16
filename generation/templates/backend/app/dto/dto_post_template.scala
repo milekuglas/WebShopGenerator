@@ -2,12 +2,17 @@ package {{ package.name }}.dto
 
 import play.api.libs.json._
 import {{ package.name }}.model.{{ product.name }}
+{% for property in product.properties %}
+{%- if not property.primitive -%}
+import {{ package.name }}.model.{{ property.type.name }}._
+{% endif %}
+{% endfor %}
 
 
 case class Post{{ product.name }}(
 {% for property in product.properties %}
 {% if not property.name == "id" %}
-    {{ property.name }}: {{property.type}}
+    {{ property.name }}: {{property.type.name}}
   {%- if not loop.last  or product.type == "base" -%}
       ,
   {% endif %}
