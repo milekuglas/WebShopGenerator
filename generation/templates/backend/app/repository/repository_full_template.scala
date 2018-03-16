@@ -45,11 +45,11 @@ class {{ product.name }}FullRepository @Inject() (protected val dbConfigProvider
   })
 
   def insert({{ product.name|lower() }}Full: {{ product.name }}Full): Future[{{ product.name }}Full] = db.run((for {
+    category <- Categories.filter(_.name === "{{ product.name }}").result.head
     {{ base_product.name|lower() }} <- ({{ base_product.name }}s returning {{ base_product.name }}s) += {{ product.name|lower() }}Full.
-    {{- base_product.name|lower() }}
+    {{- base_product.name|lower() }}.copy(categoryId = category.id)
     {{ product.name|lower() }} <- ({{ product.name }}s returning {{ product.name }}s) += {{ product.name|lower() }}Full.
     {{- product.name|lower() }}.copy({{ base_product.name|lower() }}Id = {{ base_product.name|lower() }}.id)
-    category <- Categories.filter(_.id === {{ base_product.name|lower() }}.categoryId).result.head
   } yield {{ product.name }}Full({{ product.name|lower() }}, {{ base_product.name|lower() }}, category)).transactionally)
 
   def delete(id: Long): Future[Int] = db.run((for {

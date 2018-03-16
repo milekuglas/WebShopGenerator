@@ -5,6 +5,9 @@ import {{ package.name }}.model.{{ product.name }}
 
 
 case class Get{{ product.name }}(
+  {% if product.type == "base" %}
+  id: Long,
+  {% endif %}
 {% if product.type == "inherited" %}
   {{ base_product.name|lower() }}Id: Long,
 {% endif %}
@@ -26,6 +29,9 @@ object Get{{ product.name }} {
   implicit def {{ product.name|lower() }}ToGet
   {{- product.name }}({{ product.name|lower() }}: {{ product.name }}): Get{{ product.name }} =
     new Get{{ product.name }}(
+    {% if product.type == "base" %}
+     {{ product.name|lower() }}.id: Long,
+    {% endif %}
     {% if product.type == "inherited" %}
       {{ product.name|lower() }}.{{ base_product.name|lower() }}Id,
     {% endif %}

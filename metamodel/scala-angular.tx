@@ -10,8 +10,6 @@ ProjectModel:
 Project:
     'project' name=ID '{'
         (package=Package
-        database=Database
-        build=BuildTool
         jwt=JWTSecret)#
     '}'
 ;
@@ -20,24 +18,8 @@ Package:
     'package:' name=/[a-z][a-z0-9_]*(\.[a-z0-9_]+)+[0-9a-z_]/
 ;
 
-Database:
-    'database:' name=DatabaseType
-;
-
-DatabaseType:
-    'H2' | 'MYSQL' | 'PostgreSQL'
-;
-
-BuildTool:
-    'build_tool:' name=BuildType
-;
-
 JWTSecret:
     'jwt_secret:' name=/[a-zA-Z0-9]*/
-;
-
-BuildType:
-    'SBT'
 ;
 
 Product:

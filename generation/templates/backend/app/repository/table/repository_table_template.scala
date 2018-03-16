@@ -7,10 +7,13 @@ import slick.jdbc.PostgresProfile.api._
 
     val Categories = TableQuery[CategoryTable]
 
+    {% if product.type == "base" %}
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    {% endif %}
     {% if product.type == "inherited" %}
     val {{ base_product.name }}s = TableQuery[{{ base_product.name }}Table]
 
-    def {{ base_product.name|lower() }}Id = column[{{base_product.properties[0].type}}]("{{ base_product.name|lower() }}_id")
+    def {{ base_product.name|lower() }}Id = column[Long]("{{ base_product.name|lower() }}_id")
     {% endif %}
     {% for property in product.properties %}
     def {{ property.name}} = column[{{property.type}}]("{{ property.name }}"{% if property.name == "id" %}, O.PrimaryKey, O.AutoInc{% endif %})
@@ -26,6 +29,7 @@ import slick.jdbc.PostgresProfile.api._
     {% endif %}
 
     def * = (
+    {%- if product.type == "base" -%} id, {% endif %}
     {%- if product.type == "inherited" %}
         {{- base_product.name|lower() }}Id{%- if True -%}, {% endif %}
     {%- endif %}

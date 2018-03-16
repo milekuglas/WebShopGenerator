@@ -39,7 +39,7 @@ from generation.generators.frontend.item_generator import ItemGenerator
 
 if __name__ == '__main__':
     try:
-        shutil.rmtree('./output/frontend')
+        shutil.rmtree('./output')
     except Exception:
         pass
     parser = Parser()
@@ -81,22 +81,22 @@ if __name__ == '__main__':
 
     # Frontend
 
-    base_app_generator = BaseAppGenerator(main_generator)
-    auth_generator = AuthGenerator(main_generator)
-    user_generator = UserModuleGenerator(main_generator)
-    home_generator = HomeGenerator(main_generator)
-    starter_generator = StarterGenerator(main_generator)
-    product_generator = ProductGenerator(main_generator)
-    item_generator = ItemGenerator(main_generator)
-    sc_generator = SCGenerator(main_generator)
-
-    main_generator.add_generator(base_app_generator)
-    main_generator.add_generator(auth_generator)
-    main_generator.add_generator(user_generator)
-    main_generator.add_generator(home_generator)
-    main_generator.add_generator(starter_generator)
-    main_generator.add_generator(product_generator)
-    main_generator.add_generator(item_generator)
-    main_generator.add_generator(sc_generator)
+    # base_app_generator = BaseAppGenerator(main_generator)
+    # auth_generator = AuthGenerator(main_generator)
+    # user_generator = UserModuleGenerator(main_generator)
+    # home_generator = HomeGenerator(main_generator)
+    # starter_generator = StarterGenerator(main_generator)
+    # product_generator = ProductGenerator(main_generator)
+    # item_generator = ItemGenerator(main_generator)
+    # sc_generator = SCGenerator(main_generator)
+    #
+    # main_generator.add_generator(base_app_generator)
+    # main_generator.add_generator(auth_generator)
+    # main_generator.add_generator(user_generator)
+    # main_generator.add_generator(home_generator)
+    # main_generator.add_generator(starter_generator)
+    # main_generator.add_generator(product_generator)
+    # main_generator.add_generator(item_generator)
+    # main_generator.add_generator(sc_generator)
 
     main_generator.generate_all(model)

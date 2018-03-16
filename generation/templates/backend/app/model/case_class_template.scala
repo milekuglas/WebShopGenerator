@@ -1,6 +1,9 @@
 package {{ model.project.package.name }}.model
 
 case class {{ product.name }} (
+  {% if product.type == "base" %}
+  id: Long,
+  {% endif %}
   {% if product.type == "inherited" %}
   {{ model.base_product.name|lower() }}Id: Long,
   {% endif %}
