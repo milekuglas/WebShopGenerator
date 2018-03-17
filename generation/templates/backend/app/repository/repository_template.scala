@@ -76,9 +76,9 @@ class {{ product.name }}Repository @Inject() (protected val dbConfigProvider: Da
 
     MaybeFilter({{ product.name }}s)
     {% for property in product.properties %}
+    {%- if property.primitive -%}
     {% if property.type.name != "Long" and property.type.name != "Int" 
   and property.type.name != "Double" and property.type.name != "Float" %}
-  {%- if property.primitive -%}
       .filter({{ property.name }})(value => {{ product.name|lower() }} => {{ product.name|lower() }}.{{ property.name }}.toLowerCase like "%"+value.toLowerCase+"%")
       {% endif %}
     {% if (property.type.name == "Long" or property.type.name == "Int" 

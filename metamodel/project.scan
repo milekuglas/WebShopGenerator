@@ -24,20 +24,23 @@ product Processor inherited {
 }     
 
 product Ram inherited {
-    ramType: string
     maxFrequency: double
     capacity: int
     voltage: double
     latency: int
+    ramType: RamType
 }
 
-category Computer
-category ComputerComponent -> Computer
-category Processor -> ComputerComponent
-category Ram -> ComputerComponent
+category Hardware
+category Processor -> Hardware
+category Ram -> Hardware
 
 enum ProcessorType {
   SINGLE, DOUBLE, QUAD, HEXA, OCTA
+}
+
+enum RamType {
+  DDR3, DDR4, DDR5, DDR6
 }
 
 enum ProductType {
