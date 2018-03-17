@@ -12,8 +12,10 @@
 ## Run generated project
 ```
   cd output\backend
-  sbt scalafmt
-  sbt run
+  sbt scalafmt run
+  cd output\frontend
+  npm install
+  ng serve -o
 ```
 Note: Download SBT from: https://www.scala-sbt.org/download.html (version: 0.13.15)
    
