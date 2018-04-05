@@ -12,6 +12,7 @@ from generation.generators.backend.order_generator import OrderGenerator
 from generation.generators.backend.order_item_generator import OrderItemGenerator
 from generation.generators.backend.shopping_cart_generator import ShoppingCartGenerator
 from generation.generators.backend.user_generator import UserGenerator
+from generation.generators.dsl_generator import DslGenerator
 from parsers.parser import Parser
 from root import root
 from generation.generators.backend.conf_generator import ConfGenerator
@@ -43,8 +44,11 @@ if __name__ == '__main__':
         shutil.rmtree('./output')
     except Exception:
         pass
+
+    dsl_generator = DslGenerator()
+    dsl_generator.generate()
     parser = Parser()
-    model = parser.parse(os.path.join(root, "metamodel"), 'scala-angular.tx', 'project.scan', True)
+    model = parser.parse(os.path.join(root, "metamodel"), 'scala-angular.tx', 'model.scan', True)
     main_generator = MainGenerator()
     model_generator = ModelGenerator(main_generator)
     table_generator = TableGenerator(main_generator)

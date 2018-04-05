@@ -1,0 +1,69 @@
+project App {
+    package: org.my
+    jwt_secret: jwtsecret
+}
+
+product {{ base_product.name }} base {
+{% for property in base_product.attributes %}
+  {{ property.name }}:
+  {%- if property.isEnum -%}
+  {{- property.type -}}
+  {% endif %}
+  {%- if not property.isEnum -%}
+  {{- property.type.lower() -}}
+  {% endif %}
+  {% if True %}
+
+  {% endif %}
+{% endfor %}
+}
+
+{% for product in products %}
+product {{ product.name }} inherited {
+{% for property in product.attributes %}
+  {{ property.name }}:
+  {%- if property.isEnum -%}
+  {{- property.type -}}
+  {% endif %}
+  {%- if not property.isEnum -%}
+  {{- property.type.lower() -}}
+  {% endif %}
+  {% if True %}
+
+  {% endif %}
+{% endfor %}
+}
+{% endfor %}
+
+{% for root_category in root_categories %}
+category {{root_category.name }}
+    {% for mid_category in mid_categories %}
+    {%- if mid_category.generalization == root_category.id  -%}
+category {{mid_category.name }} -> {{root_category.name }}
+    {% endif %}
+        {% for product_category in product_categories %}
+        {%- if product_category.generalization == root_category.id  -%}
+category {{product_category.name[1:] }} -> {{mid_category.name }}
+        {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% for product_category in product_categories %}
+    {%- if product_category.generalization == root_category.id  -%}
+category {{product_category.name[1:] }} -> {{root_category.name }}
+    {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{% for enum in enums %}
+enum {{ enum.name }} {
+{% for att in enum.attributes%}
+    {{- att -}}
+     {%- if not loop.last -%}
+     ,
+    {%- endif -%}
+{%- endfor -%}
+{% if True %}
+
+{% endif %}
+}
+{% endfor %}
