@@ -1,6 +1,6 @@
 project App {
-    package: org.my
-    jwt_secret: jwtsecret
+    package: {{ package_name }}
+    jwt_secret: {{ jwt_secret }}
 }
 
 product {{ base_product.name }} base {
