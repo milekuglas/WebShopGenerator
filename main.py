@@ -40,8 +40,13 @@ from generation.generators.frontend.item_generator import ItemGenerator
 from generation.generators.frontend.category_generator import CategoryGenerator as CategoryGeneratorFront
 
 if __name__ == '__main__':
+    path = './output'
+    shutil.rmtree(path + '/frontend')
     try:
-        shutil.rmtree('./output')
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            for filename in filenames:
+                if '.manual.' not in filename:
+                    os.remove(filename)
     except Exception:
         pass
 

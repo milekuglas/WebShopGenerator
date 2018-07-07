@@ -6,6 +6,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Random
 
+import com.google.inject.ImplementedBy
 import com.github.t3hnar.bcrypt.Password
 import {{ package.name }}.exception.UserNotFoundException
 import {{ package.name }}.model.{ShoppingCart, User}
@@ -14,7 +15,13 @@ import {{ package.name }}.dto.RegisteredUser
 
 import play.api.Logger
 
-class UserService @Inject() (val userRepository: UserRepository, val shoppingCartRepository: ShoppingCartRepository)(implicit val ec: ExecutionContext) {
+@ImplementedBy(classOf[UserServiceImpl])
+trait UserService {
+  def register(user: User): Future[User]
+  def get(id: Long): Future[User]
+}
+
+class UserServiceImpl @Inject() (val userRepository: UserRepository, val shoppingCartRepository: ShoppingCartRepository)(implicit val ec: ExecutionContext) extends UserService {
 
   private val logger = Logger(this.getClass())
 
@@ -37,12 +44,5 @@ class UserService @Inject() (val userRepository: UserRepository, val shoppingCar
   private def generateRefreshToken(): String = {
     Random.alphanumeric.take(50).mkString
   }
-
-}
-
-object UserService {
-
-  def apply(userRepository: UserRepository, shoppingCartRepository: ShoppingCartRepository)(implicit ec: ExecutionContext): UserService =
-    new UserService(userRepository, shoppingCartRepository)
 
 }

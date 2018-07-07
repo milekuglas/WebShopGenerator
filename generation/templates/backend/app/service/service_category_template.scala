@@ -2,13 +2,24 @@ package {{ package.name }}.service
 
 import javax.inject.{Inject, Singleton}
 
+import com.google.inject.ImplementedBy
 import scala.concurrent.{ExecutionContext, Future}
 import {{ package.name }}.dto.{GetCategory, PostCategory}
 import {{ package.name }}.repository.CategoryRepository
 
+@ImplementedBy(classOf[CategoryServiceImpl])
+trait CategoryService {
+  def getAll: Future[Seq[GetCategory]]
+  def get(id: Long): Future[Option[GetCategory]]
+  def save(processorFull: PostCategory): Future[GetCategory]
+  def delete(id: Long): Future[Int]
+  def update(id: Long, processorFull: PostCategory): Future[Int]
+  def getAllSubcategories(id: Long): Future[Seq[GetCategory]]
+}
+
 @Singleton()
-class CategoryService @Inject()(categoryRepository: CategoryRepository)(
-    implicit executionContext: ExecutionContext) {
+class CategoryServiceImpl @Inject()(categoryRepository: CategoryRepository)(
+    implicit executionContext: ExecutionContext) extends CategoryService {
 
   def getAll: Future[Seq[GetCategory]] = {
     categoryRepository.all().map(_.map(GetCategory.categoryToGetCategory))

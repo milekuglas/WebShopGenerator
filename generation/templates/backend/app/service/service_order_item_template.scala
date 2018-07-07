@@ -2,15 +2,27 @@ package {{ package.name }}.service
 
 import javax.inject.{Inject, Singleton}
 
+import com.google.inject.ImplementedBy
 import scala.concurrent.{ExecutionContext, Future}
 import {{ package.name }}.dto.{GetOrderItem, PostOrderItem}
 import {{ package.name }}.repository.OrderItemRepository
 import {{ package.name }}.model.ShoppingCart
 
+@ImplementedBy(classOf[OrderItemServiceImpl])
+trait OrderItemService {
+  def getAll(page: Int, size: Int): Future[Seq[Seq[GetOrderItem]]]
+  def getOrderItemsByOrderId(orderId: Long): Future[Seq[GetOrderItem]]
+  def getShoppingCartItemsByUserId(userId: Long): Future[Seq[GetOrderItem]]
+  def getShoppingCartByUserId(userId: Long): Future[ShoppingCart]
+  def getByUserId(id: Long, page: Int, size: Int): Future[Seq[Seq[GetOrderItem]]]
+  def insert(orderItem: PostOrderItem): Future[GetOrderItem]
+  def update(id: Long, orderItem: PostOrderItem): Future[Int]
+  def delete(id: Long): Future[Int]
+}
 
 @Singleton()
-class OrderItemService @Inject()(orderItemRepository: OrderItemRepository)(
-  implicit executionContext: ExecutionContext) {
+class OrderItemServiceImpl @Inject()(orderItemRepository: OrderItemRepository)(
+  implicit executionContext: ExecutionContext) extends OrderItemService {
 
   def getAll(page: Int, size: Int): Future[Seq[Seq[GetOrderItem]]] = {
     orderItemRepository.all(page, size).map(_.map(_.map(GetOrderItem.orderItemToGetOrderItem)))

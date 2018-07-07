@@ -42,7 +42,17 @@ tmtagsHistory
 
 # App #
 #######
-output
+/output/frontend
+
+/output/backend/conf
+/output/backend/project
+/output/backend/target
+/output/backend/.scalafmt.conf
+/output/backend/build.sbt
+
+/output/backend/**/*.scala
+!/output/backend/**/*.manual.scala
+
 metamodel/*.dot
 metamodel/model.scan
 

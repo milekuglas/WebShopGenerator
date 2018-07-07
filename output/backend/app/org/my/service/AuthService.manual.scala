@@ -1,29 +1,22 @@
-package {{ package.name }}.service
+package org.my.service
 
 import javax.inject.Inject
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-import com.google.inject.ImplementedBy
 import com.github.t3hnar.bcrypt.Password
-import {{ package.name }}.exception.IncorrectPasswordException
-import {{ package.name }}.exception.InvalidRefreshTokenException
-import {{ package.name }}.exception.UserNotFoundException
-import {{ package.name }}.model.User
-import {{ package.name }}.repository.UserRepository
-import {{ package.name }}.util.JwtUtil
-import {{ package.name }}.service.AuthServiceOtherImpl
+import org.my.exception.IncorrectPasswordException
+import org.my.exception.InvalidRefreshTokenException
+import org.my.exception.UserNotFoundException
+import org.my.model.User
+import org.my.repository.UserRepository
+import org.my.util.JwtUtil
+import org.my.service.AuthService
 
 import play.api.Logger
 
-@ImplementedBy(classOf[AuthServiceOtherImpl])
-trait AuthService {
-  def login(username: String, password: String): Future[(String, String)]
-  def refresh(id: Long, refreshToken: String): Future[(String, String)]
-}
-
-class AuthServiceImpl @Inject() (
+class AuthServiceOtherImpl @Inject() (
   val userRepository: UserRepository,
   val jwtUtil: JwtUtil
 )(implicit ec: ExecutionContext) extends AuthService {
@@ -34,7 +27,8 @@ class AuthServiceImpl @Inject() (
     userRepository.findByUsername(username).map { result =>
       result map { user =>
         if (password.isBcrypted(user.password)) {
-          logger.info("user successfully logged in")
+          println("Added print to other implementation")
+          logger.info("user successfully logged in using other service")
           (jwtUtil.generate(user), user.refreshToken)
         } else {
           logger.error("user not logged in")
@@ -66,12 +60,12 @@ class AuthServiceImpl @Inject() (
 
 }
 
-object AuthService {
+// object AuthService {
 
-  def apply(
-    userRepository: UserRepository,
-    jwtUtil: JwtUtil
-  )(implicit ec: ExecutionContext): AuthService =
-    new AuthServiceImpl(userRepository, jwtUtil)
+//   def apply(
+//     userRepository: UserRepository,
+//     jwtUtil: JwtUtil
+//   )(implicit ec: ExecutionContext): AuthService =
+//     new AuthServiceImpl(userRepository, jwtUtil)
 
-}
+// }
