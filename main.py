@@ -41,7 +41,10 @@ from generation.generators.frontend.category_generator import CategoryGenerator 
 
 if __name__ == '__main__':
     path = './output'
-    shutil.rmtree(path + '/frontend')
+    try:
+        shutil.rmtree(path + '/frontend')
+    except Exception:
+        pass
     try:
         for (dirpath, dirnames, filenames) in os.walk(path):
             for filename in filenames:
