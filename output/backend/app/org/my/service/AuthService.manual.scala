@@ -16,10 +16,11 @@ import org.my.service.AuthService
 
 import play.api.Logger
 
-class AuthServiceOtherImpl @Inject() (
-  val userRepository: UserRepository,
-  val jwtUtil: JwtUtil
-)(implicit ec: ExecutionContext) extends AuthService {
+class AuthServiceOtherImpl @Inject()(
+    val userRepository: UserRepository,
+    val jwtUtil: JwtUtil
+)(implicit ec: ExecutionContext)
+    extends AuthService {
 
   private val logger = Logger(this.getClass())
 
