@@ -25,11 +25,12 @@ class InitialData @Inject() ({{ model.base_product.name|lower() }}Repository: {{
       _ <- {{ model.base_product.name|lower() }}Repository.create()
       {% for product in model.products %}
       _ <- {{ product.name|lower() }}Repository.create()
+      {% endfor %}
       _ <- userRepository.create()
       _ <- orderRepository.create()
       _ <- shoppingCartRepository.create()
       _ <- orderItemRepository.create()
-      {% endfor %}
+
 
     } yield ()
 

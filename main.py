@@ -39,19 +39,30 @@ from generation.generators.frontend.product_generator import ProductGenerator
 from generation.generators.frontend.item_generator import ItemGenerator
 from generation.generators.frontend.category_generator import CategoryGenerator as CategoryGeneratorFront
 
-if __name__ == '__main__':
-    path = './output'
-    try:
-        shutil.rmtree(path + '/frontend')
-    except Exception:
-        pass
+
+def delete_files(path):
     try:
         for (dirpath, dirnames, filenames) in os.walk(path):
+            #skip .idea and node_modules folder
+            dirnames[:] = [d for d in dirnames if not (d.startswith('.idea') or d.startswith('node_modules'))]
+            for dir in dirnames:
+                path = os.path.join(dirpath, dir)
+                delete_files(path)
             for filename in filenames:
                 if '.manual.' not in filename:
-                    os.remove(filename)
+                    os.remove(os.path.join(dirpath, filename))
     except Exception:
         pass
+
+
+if __name__ == '__main__':
+    path = './output'
+    #try:
+    #    shutil.rmtree(path + '/frontend')
+    #except Exception:
+    #    pass
+
+    delete_files(path)
 
     dsl_generator = DslGenerator()
     dsl_generator.generate()

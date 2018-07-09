@@ -12,7 +12,16 @@ from root import root
 class DslGenerator(Generator):
 
     def generate(self):
-        tree = ET.parse(os.path.join('xmi_model', 'model.xml'))
+        file_not_found = True
+        while file_not_found:
+            try:
+                xml_file = input("Enter XML file name: ")
+                tree = ET.parse(os.path.join('xmi_model', xml_file))
+            except FileNotFoundError:
+                print("File not found.")
+            else:
+                file_not_found = False
+
         tree_root = tree.getroot()
 
         classes = []
