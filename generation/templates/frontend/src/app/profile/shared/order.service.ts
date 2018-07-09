@@ -20,4 +20,9 @@ export class OrderService {
     const url = `${environment.baseUrl}${this.orderUrl}`;
     return this.http.get<[Order]>(url, httpOptions);
   }
+
+  create(order: Order) {
+    const url = `${environment.baseUrl}${this.orderUrl}`;
+    return this.http.post(url, order).subscribe();
+  }
 }
