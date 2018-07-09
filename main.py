@@ -43,7 +43,8 @@ from generation.generators.frontend.category_generator import CategoryGenerator 
 def delete_files(path):
     try:
         for (dirpath, dirnames, filenames) in os.walk(path):
-            dirnames[:] = [d for d in dirnames if not d.startswith('.idea')]
+            #skip .idea and node_modules folder
+            dirnames[:] = [d for d in dirnames if not (d.startswith('.idea') or d.startswith('node_modules'))]
             for dir in dirnames:
                 path = os.path.join(dirpath, dir)
                 delete_files(path)
@@ -56,10 +57,10 @@ def delete_files(path):
 
 if __name__ == '__main__':
     path = './output'
-    try:
-        shutil.rmtree(path + '/frontend')
-    except Exception:
-        pass
+    #try:
+    #    shutil.rmtree(path + '/frontend')
+    #except Exception:
+    #    pass
 
     delete_files(path)
 
