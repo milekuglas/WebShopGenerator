@@ -65,13 +65,3 @@ class AuthServiceImpl @Inject() (
   }
 
 }
-
-object AuthService {
-
-  def apply(
-    userRepository: UserRepository,
-    jwtUtil: JwtUtil
-  )(implicit ec: ExecutionContext): AuthService =
-    new AuthServiceImpl(userRepository, jwtUtil)
-
-}
